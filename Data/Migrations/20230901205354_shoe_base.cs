@@ -19,7 +19,7 @@ namespace ShoeWebshop.Data.Migrations
                     Sex = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Weight = table.Column<int>(type: "INTEGER", nullable: false),
-                    images = table.Column<string>(type: "TEXT", nullable: false)
+                    Images = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -11,7 +11,7 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230901203339_shoe_base")]
+    [Migration("20230901205354_shoe_base")]
     partial class shoe_base
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -289,6 +289,10 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -299,10 +303,6 @@ namespace ShoeWebshop.Data.Migrations
 
                     b.Property<int>("Weight")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("images")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("ShoeID");
 

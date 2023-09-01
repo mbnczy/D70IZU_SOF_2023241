@@ -12,6 +12,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Shoe> Shoes { get; set; }
 
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
