@@ -7,6 +7,7 @@ namespace ShoeWebshop.Data;
 public class ApplicationDbContext : IdentityDbContext
 {
     public DbSet<Color> Colors { get; set; }
+    public DbSet<Size> Sizes { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

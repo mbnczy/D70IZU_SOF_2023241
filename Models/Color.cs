@@ -10,10 +10,10 @@ namespace ShoeWebshop.Models
 		public string Name { get; set; }
 		public string Hexa_color { get; set; }
 
-		//public Color()
-		//{
-		//	ColorID = Guid.NewGuid().ToString();
-		//}
-    }
+		public Color()
+		{
+			ColorID = Guid.NewGuid().ToString();
+		}
+	}
 }
 
