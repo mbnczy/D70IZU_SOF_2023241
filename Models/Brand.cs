@@ -11,10 +11,10 @@ namespace ShoeWebshop.Models
 		public string Country_of_origin { get; set; }
 		public DateTime Founded_year { get; set; }
 
-		//public Brand()
-		//{
-		//	BrandID = Guid.NewGuid().ToString();
-		//}
+		public Brand()
+		{
+			BrandID = Guid.NewGuid().ToString();
+		}
 	}
 }
 

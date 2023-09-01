@@ -15,10 +15,10 @@ namespace ShoeWebshop.Models
         public int Weight { get; set; }
         public string Images { get; set; }
 
-        //public Shoe()
-        //{
-        //    ShoeID = Guid.NewGuid().ToString();
-        //}
+        public Shoe()
+        {
+            ShoeID = Guid.NewGuid().ToString();
+        }
     }
 }
 
