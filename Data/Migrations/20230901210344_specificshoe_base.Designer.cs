@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeWebshop.Data;
 
@@ -10,9 +11,10 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230901210344_specificshoe_base")]
+    partial class specificshoe_base
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.16");
@@ -268,51 +270,6 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("ColorID");
 
                     b.ToTable("Colors");
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
-                {
-                    b.Property<string>("PurchaseID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CustomerID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Purchase_date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Total_amount")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PurchaseID");
-
-                    b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.PurchaseItem", b =>
-                {
-                    b.Property<string>("PurchaseItemID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PurchaseID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte>("Quantity_purchased")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Specific_shoe_detailsID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Sub_total")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PurchaseItemID");
-
-                    b.ToTable("Purchase_items");
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Shoe", b =>
