@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<SpecificShoe> Specific_shoe_details { get; set; }
     public DbSet<Purchase> Purchases { get; set; }
     public DbSet<PurchaseItem> Purchase_items { get; set; }
+    public DbSet<SiteUser> SiteUsers { get; set; }
 
 
 
