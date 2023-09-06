@@ -1,7 +1,7 @@
 #database
-*.db
-*.db-shm
-*.db-wal
+#*.db
+#*.db-shm
+#*.db-wal
 
 # globs
 Makefile.in
