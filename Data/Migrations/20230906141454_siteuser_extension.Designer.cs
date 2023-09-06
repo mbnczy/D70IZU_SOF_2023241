@@ -11,7 +11,7 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230904192010_siteuser_extension")]
+    [Migration("20230906141454_siteuser_extension")]
     partial class siteuser_extension
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -425,12 +425,18 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated_at")
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("SiteUser");

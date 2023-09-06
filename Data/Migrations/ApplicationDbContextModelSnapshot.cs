@@ -423,12 +423,18 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated_at")
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("SiteUser");
