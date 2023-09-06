@@ -73,16 +73,36 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(100)]
-            [Display(Name = "First Name")]
+            [Display(Name = "First Name*")]
             public string FirstName { get; set; }
             [Required]
             [StringLength(100)]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Last Name*")]
             public string LastName { get; set; }
-            [Required]
+
             [StringLength(100)]
-            [Display(Name = "Address")]
+            [Display(Name = "Contact Number")]
+            public string Number { get; set; }
+
+            //[StringLength(100)]
+            //[Display(Name = "Shipping Address (not required)")]
+            //public string Address { get; set; }
+
+            [StringLength(100)]
+            [Display(Name = "Address Line")]
             public string Address { get; set; }
+            [StringLength(100)]
+            [Display(Name = "Town / City")]
+            public string TownCity { get; set; }
+            [StringLength(100)]
+            [Display(Name = "State / Province / County")]
+            public string StateProvinceCounty { get; set; }
+            [StringLength(100)]
+            [Display(Name = "Postcode")]
+            public string Postcode { get; set; }
+            [StringLength(100)]
+            [Display(Name = "Country")]
+            public string Country { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -91,7 +111,7 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Email*")]
             public string Email { get; set; }
 
 
@@ -102,7 +122,7 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Password*")]
             public string Password { get; set; }
 
             /// <summary>
@@ -110,7 +130,7 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Confirm password*")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -132,7 +152,12 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.Address = Input.Address;
+                user.Address = Input.Postcode + " " +
+                                Input.TownCity + ", " +
+                                Input.Address + ", " +
+                                Input.StateProvinceCounty + ", " +
+                                Input.Country;
+                user.PhoneNumber = Input.Number;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
