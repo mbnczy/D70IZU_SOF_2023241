@@ -21,6 +21,57 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Purchase>()
+            .HasOne(x => x.Customer)
+            .WithMany()
+            .HasForeignKey(x => x.CustomerID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<PurchaseItem>()
+            .HasOne(x => x.Purchase)
+            .WithMany()
+            .HasForeignKey(x => x.PurchaseID)
+            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<PurchaseItem>()
+            .HasOne(x => x.Specific_shoe_details)
+            .WithMany()
+            .HasForeignKey(x => x.Specific_shoe_detailsID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Shoe>()
+            .HasOne(x => x.Category)
+            .WithMany()
+            .HasForeignKey(x => x.CategoryID)
+            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<Shoe>()
+            .HasOne(x => x.Brand)
+            .WithMany()
+            .HasForeignKey(x => x.BrandID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<SpecificShoe>()
+            .HasOne(x => x.Shoe)
+            .WithMany()
+            .HasForeignKey(x => x.ShoeID)
+            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<SpecificShoe>()
+            .HasOne(x => x.Color)
+            .WithMany()
+            .HasForeignKey(x => x.ColorID)
+            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<SpecificShoe>()
+            .HasOne(x => x.Size)
+            .WithMany()
+            .HasForeignKey(x => x.SizesID)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        base.OnModelCreating(builder);
+
     }
 }
 

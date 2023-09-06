@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeWebshop.Models
 {
@@ -14,6 +15,12 @@ namespace ShoeWebshop.Models
         public string Description { get; set; }
         public int Weight { get; set; }
         public string Images { get; set; }
+
+        [NotMapped]
+        public virtual Category Category { get; set; }
+        [NotMapped]
+        public virtual Brand Brand { get; set; }
+
 
         public Shoe()
         {
