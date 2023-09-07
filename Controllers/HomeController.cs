@@ -41,12 +41,24 @@ public class HomeController : Controller
 
 
     [Authorize(Roles = "Admin")]
-    public IActionResult Admin()
+    public IActionResult UserManagement()
     {
-        return View();
+        return View(_userManager.Users);
     }
-
-
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> RemoveAdmin(string uid)
+    {
+        var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+        await _userManager.RemoveFromRoleAsync(user, "Admin");
+        return RedirectToAction(nameof(UserManagement));
+    }
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GrantAdmin(string uid)
+    {
+        var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+        await _userManager.AddToRoleAsync(user, "Admin");
+        return RedirectToAction(nameof(UserManagement));
+    }
     public IActionResult Index()
     {
         return View();
