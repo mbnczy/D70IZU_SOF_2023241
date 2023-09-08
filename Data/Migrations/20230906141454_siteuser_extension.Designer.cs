@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeWebshop.Data;
 
@@ -10,9 +11,10 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230906141454_siteuser_extension")]
+    partial class siteuser_extension
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.16");
@@ -294,8 +296,6 @@ namespace ShoeWebshop.Data.Migrations
 
                     b.HasKey("PurchaseID");
 
-                    b.HasIndex("CustomerID");
-
                     b.ToTable("Purchases");
                 });
 
@@ -319,10 +319,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("PurchaseItemID");
-
-                    b.HasIndex("PurchaseID");
-
-                    b.HasIndex("Specific_shoe_detailsID");
 
                     b.ToTable("Purchase_items");
                 });
@@ -360,10 +356,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ShoeID");
-
-                    b.HasIndex("BrandID");
-
-                    b.HasIndex("CategoryID");
 
                     b.ToTable("Shoes");
                 });
@@ -421,12 +413,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("SpecificShoeID");
-
-                    b.HasIndex("ColorID");
-
-                    b.HasIndex("ShoeID");
-
-                    b.HasIndex("SizesID");
 
                     b.ToTable("Specific_shoe_details");
                 });
@@ -505,82 +491,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
-                {
-                    b.HasOne("ShoeWebshop.Models.SiteUser", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.PurchaseItem", b =>
-                {
-                    b.HasOne("ShoeWebshop.Models.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("ShoeWebshop.Models.SpecificShoe", "Specific_shoe_details")
-                        .WithMany()
-                        .HasForeignKey("Specific_shoe_detailsID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Purchase");
-
-                    b.Navigation("Specific_shoe_details");
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.Shoe", b =>
-                {
-                    b.HasOne("ShoeWebshop.Models.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("ShoeWebshop.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("ShoeWebshop.Models.SpecificShoe", b =>
-                {
-                    b.HasOne("ShoeWebshop.Models.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("ShoeWebshop.Models.Shoe", "Shoe")
-                        .WithMany()
-                        .HasForeignKey("ShoeID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("ShoeWebshop.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizesID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Shoe");
-
-                    b.Navigation("Size");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,24 +1,45 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ShoeWebshop.Data;
+using ShoeWebshop.Models;
+using ShoeWebshop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlite(connectionString).UseLazyLoadingProxies());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<SiteUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = true; 
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication()
+    .AddFacebook(opt =>
+    {
+        opt.AppId = "1050433139470194";
+        opt.AppSecret = "b381b8afbdf3cf89bbb521e00c8c2628";
+    })
+    .AddGoogle(opt =>
+    {
+        opt.ClientId = "265154729470-ltvltg8pmd1mvc5akmv9h7kh0poispld.apps.googleusercontent.com";
+        opt.ClientSecret = "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";
+    });
+//265154729470-ltvltg8pmd1mvc5akmv9h7kh0poispld.apps.googleusercontent.com
+
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

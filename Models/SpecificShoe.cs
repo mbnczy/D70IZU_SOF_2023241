@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeWebshop.Models
 {
@@ -16,7 +17,15 @@ namespace ShoeWebshop.Models
 		public int Price { get; set; }
 		public byte Discount { get; set; }
 
-		public SpecificShoe()
+        [NotMapped]
+        public virtual Shoe Shoe { get; set; }
+        [NotMapped]
+        public virtual Color Color { get; set; }
+        [NotMapped]
+        public virtual Size Size { get; set; }
+
+
+        public SpecificShoe()
 		{
 			SpecificShoeID = Guid.NewGuid().ToString();
 		}

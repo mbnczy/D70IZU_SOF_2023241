@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeWebshop.Models
 {
@@ -11,10 +12,15 @@ namespace ShoeWebshop.Models
 		public DateTime Purchase_date { get; set; }
 		public string Total_amount { get; set; }
 
+		[NotMapped]
+		public virtual SiteUser Customer { get; set; }
+
 		public Purchase()
 		{
 			PurchaseID = Guid.NewGuid().ToString();
 		}
+
+		
 	}
 }
 
