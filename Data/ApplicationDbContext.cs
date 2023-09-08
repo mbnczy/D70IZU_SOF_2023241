@@ -33,6 +33,43 @@ public class ApplicationDbContext : IdentityDbContext
         //    new { Id = "2", Name = "Staff", NormalizedName = "STAFF" },
         //    new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
         //);
+
+        builder.Entity<Color>().HasData(
+                new Color()
+                {
+                    ColorID = Guid.NewGuid().ToString(),
+                    Name = "Red",
+                    Hexa_color = "#FF0000"
+                },
+                new Color()
+                {
+                    ColorID = Guid.NewGuid().ToString(),
+                    Name = "Green",
+                    Hexa_color = "#00FF00"
+                }, new Color()
+                {
+                    ColorID = Guid.NewGuid().ToString(),
+                    Name = "Blue",
+                    Hexa_color = "#0000FF"
+                }
+            );
+        builder.Entity<Brand>().HasData(
+                new Brand()
+                {
+                    BrandID = Guid.NewGuid().ToString(),
+                    Name = "Adidas",
+                    Country_of_origin = "Germany",
+                    Founded_year = new DateTime(1949,8,18)
+                },
+                new Brand()
+                {
+                    BrandID = Guid.NewGuid().ToString(),
+                    Name = "Nike",
+                    Country_of_origin = "USA",
+                    Founded_year = new DateTime(1964, 1, 25)
+                }
+            );
+
         builder.Entity<Purchase>()
             .HasOne(x => x.Customer)
             .WithMany()
