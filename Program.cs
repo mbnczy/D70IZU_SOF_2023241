@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ShoeWebshop.Data;
 using ShoeWebshop.Models;
+using ShoeWebshop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<SiteUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
@@ -27,6 +29,8 @@ builder.Services.AddAuthentication().AddFacebook(opt =>
     opt.AppId = "1050433139470194";
     opt.AppSecret = "b381b8afbdf3cf89bbb521e00c8c2628";
 });
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 
