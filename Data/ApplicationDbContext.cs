@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShoeWebshop.Models;
 
@@ -26,6 +28,11 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        //builder.Entity<IdentityRole>().HasData(
+        //    new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+        //    new { Id = "2", Name = "Staff", NormalizedName = "STAFF" },
+        //    new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
+        //);
         builder.Entity<Purchase>()
             .HasOne(x => x.Customer)
             .WithMany()

@@ -38,10 +38,30 @@ public class HomeController : Controller
         await _userManager.AddToRoleAsync(user, "Admin");
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> DelegateStaff()
+    {
+        var principal = this.User;
+        var user = await _userManager.GetUserAsync(principal);
+        var role = new IdentityRole()
+        {
+            Name = "Staff"
+        };
 
+        if (!await _roleManager.RoleExistsAsync("Staff"))
+        {
+            await _roleManager.CreateAsync(role);
+        }
+        await _userManager.AddToRoleAsync(user, "Staff");
+        return RedirectToAction(nameof(Index));
+    }
 
     [Authorize(Roles = "Admin")]
     public IActionResult UserManagement()
+    {
+        return View(_userManager.Users);
+    }
+    [Authorize(Roles = "Admin,Staff")]
+    public IActionResult ProductManagement()
     {
         return View(_userManager.Users);
     }
@@ -59,6 +79,21 @@ public class HomeController : Controller
         await _userManager.AddToRoleAsync(user, "Admin");
         return RedirectToAction(nameof(UserManagement));
     }
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> RemoveStaff(string uid)
+    {
+        var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+        await _userManager.RemoveFromRoleAsync(user, "Staff");
+        return RedirectToAction(nameof(UserManagement));
+    }
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GrantStaff(string uid)
+    {
+        var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+        await _userManager.AddToRoleAsync(user, "Staff");
+        return RedirectToAction(nameof(UserManagement));
+    }
+
     public IActionResult Index()
     {
         return View();
