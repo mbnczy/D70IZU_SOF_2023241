@@ -21,6 +21,13 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddAuthentication().AddFacebook(opt =>
+{
+    opt.AppId = "1050433139470194";
+    opt.AppSecret = "b381b8afbdf3cf89bbb521e00c8c2628";
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
