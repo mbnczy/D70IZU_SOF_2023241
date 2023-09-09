@@ -61,6 +61,8 @@ public class HomeController : Controller
     {
         return View(_userManager.Users);
     }
+
+
     [Authorize(Roles = "Admin,Staff")]
     [HttpGet]
     public IActionResult ProductManagement()
@@ -70,6 +72,25 @@ public class HomeController : Controller
         dmodel.Categories = _db.Categories;
         return View(dmodel);
     }
+    [HttpPost]
+    public IActionResult ProductManagement(Shoe shoe, IFormFile image)
+    {
+        shoe.ShoeID = Guid.NewGuid().ToString();
+        //using (var stream = image.OpenReadStream())
+        //{
+        //    byte[] buffer = new byte[image.Length];
+        //    stream.Read(buffer, 0, (int)image.Length);
+        //    //shoe.Images = buffer;
+        //    //shoe.ContentType = image.ContentType;
+        //}
+        _db.Shoes.Add(shoe);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(ProductManagement));
+    }
+
+
+
+
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> RemoveAdmin(string uid)
     {
@@ -114,21 +135,7 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    [HttpPost]
-    public IActionResult ProductManagement(Shoe shoe, IFormFile image)
-    {
-        shoe.ShoeID = Guid.NewGuid().ToString();
-        using (var stream = image.OpenReadStream())
-        {
-            byte[] buffer = new byte[image.Length];
-            stream.Read(buffer, 0, (int)image.Length);
-            //shoe.Images = buffer;
-            //shoe.ContentType = image.ContentType;
-        }
-        _db.Shoes.Add(shoe);
-        _db.SaveChanges();
-        return RedirectToAction(nameof(Index));
-    }
+    
 
 }
 
