@@ -1,17 +1,37 @@
-﻿@model IEnumerable<SiteUser>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<SiteUser> SignInManager
-@inject UserManager<SiteUser> UserManager
+﻿@model dynamic
+
 
 <h1>Product Management</h1>
 
 <h2>Add Shoes</h2>
 
 <form method="post" enctype="multipart/form-data" class="photoForm">
-    <label>Title</label>
-    <input type="text" name="title" />
+    <label>Brand</label>
+    <select name="BrandID">
+        @foreach (var item in Model.Brands)
+        {
+            <option value="@item.BrandID">@item.Name</option>
+        }
+    </select>
+    <label>Category</label>
+    <select name="CategoryID">
+        @foreach (var item in Model.Categories)
+        {
+            <option value="@item.CategoryID">@item.Name</option>
+        }
+    </select>
+    <label>Name</label>
+    <input type="text" name="name" />
+    <label>Sex</label>
+    <input type="text" name="sex" />
+    <label>Description</label>
+    <input type="text" name="description" />
+    <label>Weight</label>
+    <input type="number" name="weight" />
+    <!--
     <label>Upload image</label>
     <input type="file" name="photoUpload" />
-    <input type="submit" value="Upload" />
+    -->
+    <input type="submit" value="Add" />
 </form>
 

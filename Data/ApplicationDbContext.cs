@@ -34,6 +34,15 @@ public class ApplicationDbContext : IdentityDbContext
         //    new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
         //);
 
+        builder.Entity<Category>().HasData(
+                new Category()
+                {
+                    CategoryID = Guid.NewGuid().ToString(),
+                    Name = "Sneaker",
+                    Description = "expensive"
+                }
+                );
+
         builder.Entity<Color>().HasData(
                 new Color()
                 {
@@ -69,6 +78,7 @@ public class ApplicationDbContext : IdentityDbContext
                     Founded_year = new DateTime(1964, 1, 25)
                 }
             );
+
 
         builder.Entity<Purchase>()
             .HasOne(x => x.Customer)

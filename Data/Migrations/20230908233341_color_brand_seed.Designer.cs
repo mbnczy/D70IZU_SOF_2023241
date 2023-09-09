@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeWebshop.Data;
 
@@ -10,9 +11,10 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230908233341_color_brand_seed")]
+    partial class color_brand_seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.16");
@@ -242,14 +244,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            BrandID = "58300707-6a1e-4696-9c85-67894040357a",
+                            BrandID = "30324a6f-8450-4335-8fd0-cae01b0089fe",
                             Country_of_origin = "Germany",
                             Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Adidas"
                         },
                         new
                         {
-                            BrandID = "3089f9e2-13e4-43ce-a710-c57ef867233b",
+                            BrandID = "bfd35cf0-0bab-4c0b-b59e-275f62f84916",
                             Country_of_origin = "USA",
                             Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Nike"
@@ -272,14 +274,6 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryID = "c7bedfeb-e007-48bb-b5be-6933daa0d9c6",
-                            Description = "expensive",
-                            Name = "Sneaker"
-                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Color", b =>
@@ -302,19 +296,19 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            ColorID = "58298488-638f-43e6-98fc-cd009bd66780",
+                            ColorID = "6b9a8a79-2f43-4504-b1ea-eca86e1fd701",
                             Hexa_color = "#FF0000",
                             Name = "Red"
                         },
                         new
                         {
-                            ColorID = "623aa2f2-a4b1-4ce5-a1f2-5e4ebf79b428",
+                            ColorID = "c22e9bac-02f4-4d6b-8569-8e4dd40b5adc",
                             Hexa_color = "#00FF00",
                             Name = "Green"
                         },
                         new
                         {
-                            ColorID = "4ad788a1-545b-453b-abd7-b002bbcdf6d6",
+                            ColorID = "14ead727-0001-42f6-9e61-f504e8901b7d",
                             Hexa_color = "#0000FF",
                             Name = "Blue"
                         });

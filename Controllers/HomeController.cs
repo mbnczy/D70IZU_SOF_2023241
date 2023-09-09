@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Dynamic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -61,9 +62,13 @@ public class HomeController : Controller
         return View(_userManager.Users);
     }
     [Authorize(Roles = "Admin,Staff")]
+    [HttpGet]
     public IActionResult ProductManagement()
     {
-        return View(_userManager.Users);
+        dynamic dmodel = new ExpandoObject();
+        dmodel.Brands = _db.Brands;
+        dmodel.Categories = _db.Categories;
+        return View(dmodel);
     }
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> RemoveAdmin(string uid)
@@ -109,5 +114,17 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    [HttpPost]
+    public IActionResult ProductManagement(Shoe shoe)
+    {
+        shoe.ShoeID = Guid.NewGuid().ToString();
+        //shoe.BrandID = "1";
+        //shoe.CategoryID = "1";
+        shoe.Images = "";
+        _db.Shoes.Add(shoe);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(Index));
+    }
+
 }
 
