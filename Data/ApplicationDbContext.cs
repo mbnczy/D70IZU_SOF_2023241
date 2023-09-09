@@ -28,11 +28,10 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        //builder.Entity<IdentityRole>().HasData(
-        //    new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-        //    new { Id = "2", Name = "Staff", NormalizedName = "STAFF" },
-        //    new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
-        //);
+        builder.Entity<IdentityRole>().HasData(
+            new IdentityRole{ Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+            new IdentityRole{ Id = "2", Name = "Staff", NormalizedName = "STAFF" }
+        );
 
         builder.Entity<Category>().HasData(
                 new Category()
