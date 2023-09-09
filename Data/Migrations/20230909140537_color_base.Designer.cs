@@ -11,8 +11,8 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230901210344_specificshoe_base")]
-    partial class specificshoe_base
+    [Migration("20230909140537_color_base")]
+    partial class color_base
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,22 @@ namespace ShoeWebshop.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "ceebb954-6653-4f46-9037-9861f13fceae",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "6ab516ba-263c-4309-9b03-e00d54d2b2e7",
+                            Name = "Staff",
+                            NormalizedName = "STAFF"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -78,6 +94,10 @@ namespace ShoeWebshop.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -130,6 +150,8 @@ namespace ShoeWebshop.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -234,6 +256,22 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("BrandID");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            BrandID = "74cedce6-8ce2-45c7-b3e7-ba3de9a7b410",
+                            Country_of_origin = "Germany",
+                            Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Adidas"
+                        },
+                        new
+                        {
+                            BrandID = "1dea26b7-3a9c-48aa-8ec8-891c2e61d326",
+                            Country_of_origin = "USA",
+                            Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Nike"
+                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Category", b =>
@@ -252,6 +290,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = "e3481a7f-cd77-4908-87f6-c362d6f5cdc1",
+                            Description = "expensive",
+                            Name = "Sneaker"
+                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Color", b =>
@@ -259,17 +305,104 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("ColorID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Hexa_color")
+                    b.Property<string>("ContentType1")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentType2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hexa_code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Image1")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image2")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image3")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image4")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShoeID")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ColorID");
 
                     b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
+                {
+                    b.Property<string>("PurchaseID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Purchase_date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Total_amount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PurchaseID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.PurchaseItem", b =>
+                {
+                    b.Property<string>("PurchaseItemID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PurchaseID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte>("Quantity_purchased")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Specific_shoe_detailsID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Sub_total")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PurchaseItemID");
+
+                    b.HasIndex("PurchaseID");
+
+                    b.HasIndex("Specific_shoe_detailsID");
+
+                    b.ToTable("Purchase_items");
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Shoe", b =>
@@ -285,13 +418,17 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Images")
+                    b.Property<byte[]>("Images")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -305,6 +442,10 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ShoeID");
+
+                    b.HasIndex("BrandID");
+
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("Shoes");
                 });
@@ -363,7 +504,38 @@ namespace ShoeWebshop.Data.Migrations
 
                     b.HasKey("SpecificShoeID");
 
+                    b.HasIndex("ColorID");
+
+                    b.HasIndex("ShoeID");
+
+                    b.HasIndex("SizesID");
+
                     b.ToTable("Specific_shoe_details");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.SiteUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Updated_at")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("SiteUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -415,6 +587,82 @@ namespace ShoeWebshop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.SiteUser", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.PurchaseItem", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.Purchase", "Purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("ShoeWebshop.Models.SpecificShoe", "Specific_shoe_details")
+                        .WithMany()
+                        .HasForeignKey("Specific_shoe_detailsID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Purchase");
+
+                    b.Navigation("Specific_shoe_details");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.Shoe", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("ShoeWebshop.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.SpecificShoe", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.Color", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("ShoeWebshop.Models.Shoe", "Shoe")
+                        .WithMany()
+                        .HasForeignKey("ShoeID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("ShoeWebshop.Models.Size", "Size")
+                        .WithMany()
+                        .HasForeignKey("SizesID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Shoe");
+
+                    b.Navigation("Size");
                 });
 #pragma warning restore 612, 618
         }

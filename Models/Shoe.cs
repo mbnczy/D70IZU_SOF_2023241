@@ -14,8 +14,6 @@ namespace ShoeWebshop.Models
         public string Sex { get; set; }
         public string Description { get; set; }
         public int Weight { get; set; }
-        public byte[] Images { get; set; }
-        public string ContentType { get; set; }
 
         [NotMapped]
         public virtual Category Category { get; set; }

@@ -11,8 +11,8 @@ using ShoeWebshop.Data;
 namespace ShoeWebshop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230909005156_shoe_img_to_db")]
-    partial class shoe_img_to_db
+    [Migration("20230909141243_specificshoe_base")]
+    partial class specificshoe_base
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,22 @@ namespace ShoeWebshop.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "872c300e-edf6-4937-8e81-25edce846455",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "6b2e3885-c84f-462a-ae1b-8d9ec48e03a9",
+                            Name = "Staff",
+                            NormalizedName = "STAFF"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -244,14 +260,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            BrandID = "b6693d2f-9ea7-4eed-979b-a92a6bc8e98b",
+                            BrandID = "9cf9105a-6b62-4cdb-8e36-2b6b080a0fc6",
                             Country_of_origin = "Germany",
                             Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Adidas"
                         },
                         new
                         {
-                            BrandID = "a1ef9abe-e0ad-42aa-8a7c-726afe26a6ec",
+                            BrandID = "45e5f61b-4347-4839-9744-e1c263640268",
                             Country_of_origin = "USA",
                             Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Nike"
@@ -278,7 +294,7 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "9c23c13b-514c-44ce-a219-6ef2da3472e8",
+                            CategoryID = "3994e00d-1b36-4024-b098-dbea885774c6",
                             Description = "expensive",
                             Name = "Sneaker"
                         });
@@ -289,37 +305,53 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("ColorID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Hexa_color")
+                    b.Property<string>("ContentType1")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentType2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hexa_code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Image1")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image2")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image3")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image4")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShoeID")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ColorID");
 
                     b.ToTable("Colors");
-
-                    b.HasData(
-                        new
-                        {
-                            ColorID = "ef846688-f107-4236-99c6-ed9449854203",
-                            Hexa_color = "#FF0000",
-                            Name = "Red"
-                        },
-                        new
-                        {
-                            ColorID = "ea0a8f14-5207-40ec-aa17-7030f2e4eacd",
-                            Hexa_color = "#00FF00",
-                            Name = "Green"
-                        },
-                        new
-                        {
-                            ColorID = "484f7ae7-4bdc-4daf-8922-a001922280d9",
-                            Hexa_color = "#0000FF",
-                            Name = "Blue"
-                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
@@ -386,17 +418,9 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("Images")
-                        .IsRequired()
-                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -463,10 +487,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SizesID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Specific_images")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

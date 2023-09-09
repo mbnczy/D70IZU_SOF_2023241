@@ -122,8 +122,8 @@ public class HomeController : Controller
         {
             byte[] buffer = new byte[image.Length];
             stream.Read(buffer, 0, (int)image.Length);
-            shoe.Images = buffer;
-            shoe.ContentType = image.ContentType;
+            //shoe.Images = buffer;
+            //shoe.ContentType = image.ContentType;
         }
         _db.Shoes.Add(shoe);
         _db.SaveChanges();

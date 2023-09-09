@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "dec7f25f-dd3f-4a7d-b2ea-2b90fbf536fb",
+                            ConcurrencyStamp = "d0449aa4-9d3e-4ecb-be8f-979459fc7b97",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "467d17e7-263d-4952-a5bd-37c625e07d96",
+                            ConcurrencyStamp = "b2edc072-ed65-4a4a-9693-724167257495",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -258,14 +258,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            BrandID = "dc9524c8-32bb-4868-9b4d-6cd8907fec42",
+                            BrandID = "4b0fd623-2ec9-4673-9bca-7e296368dbee",
                             Country_of_origin = "Germany",
                             Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Adidas"
                         },
                         new
                         {
-                            BrandID = "b1e6655e-6af4-4f95-b3d4-204c25898462",
+                            BrandID = "4efd015a-3137-40e9-94ce-2e4e8366e61b",
                             Country_of_origin = "USA",
                             Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Nike"
@@ -292,7 +292,7 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "725aa653-cdfe-4525-8405-b48dbb96da10",
+                            CategoryID = "c45b0113-e8b2-405b-a998-5d18e271fc93",
                             Description = "expensive",
                             Name = "Sneaker"
                         });
@@ -303,37 +303,55 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("ColorID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Hexa_color")
+                    b.Property<string>("ContentType1")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hexa_code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Image1")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image2")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image3")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image4")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ShoeID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ColorID");
 
-                    b.ToTable("Colors");
+                    b.HasIndex("ShoeID");
 
-                    b.HasData(
-                        new
-                        {
-                            ColorID = "e9b06a7c-a4bd-4baf-8414-2aa692992d75",
-                            Hexa_color = "#FF0000",
-                            Name = "Red"
-                        },
-                        new
-                        {
-                            ColorID = "127a7435-715e-4206-b53a-6b81dcfb5fc8",
-                            Hexa_color = "#00FF00",
-                            Name = "Green"
-                        },
-                        new
-                        {
-                            ColorID = "23330b31-b46b-457f-9fd2-02334ba7de0c",
-                            Hexa_color = "#0000FF",
-                            Name = "Blue"
-                        });
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
@@ -400,17 +418,9 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("Images")
-                        .IsRequired()
-                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -477,10 +487,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SizesID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Specific_images")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -569,6 +575,17 @@ namespace ShoeWebshop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.Color", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.Shoe", "Shoe")
+                        .WithMany()
+                        .HasForeignKey("ShoeID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Shoe");
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>

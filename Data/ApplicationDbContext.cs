@@ -42,25 +42,6 @@ public class ApplicationDbContext : IdentityDbContext
                 }
                 );
 
-        builder.Entity<Color>().HasData(
-                new Color()
-                {
-                    ColorID = Guid.NewGuid().ToString(),
-                    Name = "Red",
-                    Hexa_color = "#FF0000"
-                },
-                new Color()
-                {
-                    ColorID = Guid.NewGuid().ToString(),
-                    Name = "Green",
-                    Hexa_color = "#00FF00"
-                }, new Color()
-                {
-                    ColorID = Guid.NewGuid().ToString(),
-                    Name = "Blue",
-                    Hexa_color = "#0000FF"
-                }
-            );
         builder.Entity<Brand>().HasData(
                 new Brand()
                 {
@@ -78,6 +59,11 @@ public class ApplicationDbContext : IdentityDbContext
                 }
             );
 
+        builder.Entity<Color>()
+            .HasOne(x => x.Shoe)
+            .WithMany()
+            .HasForeignKey(x => x.ShoeID)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<Purchase>()
             .HasOne(x => x.Customer)
