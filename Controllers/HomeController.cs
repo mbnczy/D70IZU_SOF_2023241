@@ -80,40 +80,61 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult ProductManagement(ShoeViewModel svm)
     {
+        return View();
+    }
+
+    [Authorize(Roles = "Admin,Staff")]
+    [HttpGet]
+    public IActionResult PM_AddShoe()
+    {
+        dynamic dmodel = new ExpandoObject();
+        dmodel.Brands = _db.Brands;
+        dmodel.Categories = _db.Categories;
+        dmodel.Colors = _db.Colors;
+        return View(dmodel);
+    }
+
+    [HttpPost]
+    public IActionResult PM_AddShoe(ShoeViewModel svm)
+    {
         svm.Shoe.ShoeID = Guid.NewGuid().ToString();
 
         if (svm.Colors is not null)
         {
             foreach (var Color in svm.Colors)
             {
-                Color.ColorID = Guid.NewGuid().ToString();
-                Color.ShoeID = svm.Shoe.ShoeID;
-                for (int i = 0; i < 4; i++)
+                if (Color.Name is not null)
                 {
-                    if (i < Color.PictureData.Count)
+                    Color.ColorID = Guid.NewGuid().ToString();
+                    Color.ShoeID = svm.Shoe.ShoeID;
+                    for (int i = 0; i < 4; i++)
                     {
-                        using (var stream = Color.PictureData[i].OpenReadStream())
+                        if (i < Color.PictureData.Count)
                         {
-                            byte[] buffer = new byte[Color.PictureData[i].Length];
-                            stream.Read(buffer, 0, (int)Color.PictureData[i].Length);
+                            using (var stream = Color.PictureData[i].OpenReadStream())
+                            {
+                                byte[] buffer = new byte[Color.PictureData[i].Length];
+                                stream.Read(buffer, 0, (int)Color.PictureData[i].Length);
 
-                            // Set Image and ContentType properties using reflection
-                            Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, buffer);
-                            Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, Color.PictureData[i].ContentType);
+                                // Set Image and ContentType properties using reflection
+                                Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, buffer);
+                                Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, Color.PictureData[i].ContentType);
+                            }
+
+                        }
+                        else
+                        {
+                            Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, new byte[0]);
+                            Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, "");
                         }
                     }
-                    else
-                    {
-                        Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, new byte[0]);
-                        Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, "");
-                    }
+                    _db.Colors.Add(Color);
                 }
-                _db.Colors.Add(Color);
             }
         }
         _db.Shoes.Add(svm.Shoe);
         _db.SaveChanges();
-        return RedirectToAction(nameof(ProductManagement));
+        return RedirectToAction(nameof(PM_AddShoe));
     }
 
     /*
