@@ -29,8 +29,8 @@
     /* Add a CSS style to set a fixed height for the cards */
     .card {
         border: 1px solid black;
-        width: 200px;
-        height: 250px;
+        width: 250px;
+        height: 300px;
         display: flex;
         flex-direction: column;
         overflow:hidden;
@@ -43,13 +43,12 @@
             overflow: hidden;
         }
 </style>
-</style>
 
 <h1>Manage all</h1>
 
 <h2>List Shoes</h2>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="row row-cols-1 row-cols-md-5 g-4">
     @{
         foreach (var item in Model)
         {

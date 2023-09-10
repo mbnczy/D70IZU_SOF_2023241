@@ -50,6 +50,7 @@ public class ProductsController : Controller
         dmodel.Brands = _db.Brands;
         dmodel.Categories = _db.Categories;
         dmodel.Colors = _db.Colors;
+        dmodel.Shoes = _db.Shoes;
         return View(dmodel);
     }
 
