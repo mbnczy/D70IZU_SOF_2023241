@@ -78,28 +78,24 @@ public class HomeController : Controller
         return View(dmodel);
     }
     [HttpPost]
-    public IActionResult ProductManagement(ShoeViewModel svm,
-        IFormFile picturedata1,
-        IFormFile picturedata2,
-        IFormFile picturedata3,
-        IFormFile picturedata4)
+    public IActionResult ProductManagement(ShoeViewModel svm, List<IFormFile> picturedata)
     {
+        
         svm.Shoe.ShoeID = Guid.NewGuid().ToString();
         svm.Color.ShoeID = svm.Shoe.ShoeID;
 
-        List<IFormFile> pictureDataList = new List<IFormFile>() { picturedata1, picturedata2, picturedata3, picturedata4 };
-        for (int i = 0; i < pictureDataList.Count; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if (pictureDataList[i] is not null)
+            if (i<picturedata.Count)
             {
-                using (var stream = pictureDataList[i].OpenReadStream())
+                using (var stream = picturedata[i].OpenReadStream())
                 {
-                    byte[] buffer = new byte[pictureDataList[i].Length];
-                    stream.Read(buffer, 0, (int)pictureDataList[i].Length);
+                    byte[] buffer = new byte[picturedata[i].Length];
+                    stream.Read(buffer, 0, (int)picturedata[i].Length);
 
                     // Set Image and ContentType properties using reflection
                     svm.Color.GetType().GetProperty("Image" + (i + 1)).SetValue(svm.Color, buffer);
-                    svm.Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(svm.Color, pictureDataList[i].ContentType);
+                    svm.Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(svm.Color, picturedata[i].ContentType);
                 }
             }
             else
