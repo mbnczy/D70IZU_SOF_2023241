@@ -1,7 +1,7 @@
 ﻿using System;
 using ShoeWebshop.Models;
 
-namespace ShoeWebshop.Views.Home
+namespace ShoeWebshop.Views.Products
 {
 	public class ShoeViewModel
 	{

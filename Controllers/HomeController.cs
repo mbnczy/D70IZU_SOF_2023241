@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoeWebshop.Data;
 using ShoeWebshop.Models;
-using ShoeWebshop.Views.Home;
+//using ShoeWebshop.Views.Home;
+using ShoeWebshop.Views.Products;
 
 namespace ShoeWebshop.Controllers;
 
@@ -83,59 +84,59 @@ public class HomeController : Controller
         return View();
     }
 
-    [Authorize(Roles = "Admin,Staff")]
-    [HttpGet]
-    public IActionResult PM_AddShoe()
-    {
-        dynamic dmodel = new ExpandoObject();
-        dmodel.Brands = _db.Brands;
-        dmodel.Categories = _db.Categories;
-        dmodel.Colors = _db.Colors;
-        return View(dmodel);
-    }
+    //[Authorize(Roles = "Admin,Staff")]
+    //[HttpGet]
+    //public IActionResult PM_AddShoe()
+    //{
+    //    dynamic dmodel = new ExpandoObject();
+    //    dmodel.Brands = _db.Brands;
+    //    dmodel.Categories = _db.Categories;
+    //    dmodel.Colors = _db.Colors;
+    //    return View(dmodel);
+    //}
 
-    [HttpPost]
-    public IActionResult PM_AddShoe(ShoeViewModel svm)
-    {
-        svm.Shoe.ShoeID = Guid.NewGuid().ToString();
+    //[HttpPost]
+    //public IActionResult PM_AddShoe(ShoeViewModel svm)
+    //{
+    //    svm.Shoe.ShoeID = Guid.NewGuid().ToString();
 
-        if (svm.Colors is not null)
-        {
-            foreach (var Color in svm.Colors)
-            {
-                if (Color.Name is not null)
-                {
-                    Color.ColorID = Guid.NewGuid().ToString();
-                    Color.ShoeID = svm.Shoe.ShoeID;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (i < Color.PictureData.Count)
-                        {
-                            using (var stream = Color.PictureData[i].OpenReadStream())
-                            {
-                                byte[] buffer = new byte[Color.PictureData[i].Length];
-                                stream.Read(buffer, 0, (int)Color.PictureData[i].Length);
+    //    if (svm.Colors is not null)
+    //    {
+    //        foreach (var Color in svm.Colors)
+    //        {
+    //            if (Color.Name is not null)
+    //            {
+    //                Color.ColorID = Guid.NewGuid().ToString();
+    //                Color.ShoeID = svm.Shoe.ShoeID;
+    //                for (int i = 0; i < 4; i++)
+    //                {
+    //                    if (i < Color.PictureData.Count)
+    //                    {
+    //                        using (var stream = Color.PictureData[i].OpenReadStream())
+    //                        {
+    //                            byte[] buffer = new byte[Color.PictureData[i].Length];
+    //                            stream.Read(buffer, 0, (int)Color.PictureData[i].Length);
 
-                                // Set Image and ContentType properties using reflection
-                                Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, buffer);
-                                Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, Color.PictureData[i].ContentType);
-                            }
+    //                            // Set Image and ContentType properties using reflection
+    //                            Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, buffer);
+    //                            Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, Color.PictureData[i].ContentType);
+    //                        }
 
-                        }
-                        else
-                        {
-                            Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, new byte[0]);
-                            Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, "");
-                        }
-                    }
-                    _db.Colors.Add(Color);
-                }
-            }
-        }
-        _db.Shoes.Add(svm.Shoe);
-        _db.SaveChanges();
-        return RedirectToAction(nameof(PM_AddShoe));
-    }
+    //                    }
+    //                    else
+    //                    {
+    //                        Color.GetType().GetProperty("Image" + (i + 1)).SetValue(Color, new byte[0]);
+    //                        Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, "");
+    //                    }
+    //                }
+    //                _db.Colors.Add(Color);
+    //            }
+    //        }
+    //    }
+    //    _db.Shoes.Add(svm.Shoe);
+    //    _db.SaveChanges();
+    //    return RedirectToAction(nameof(PM_AddShoe));
+    //}
 
     /*
     [HttpPost]
