@@ -1,10 +1,12 @@
-﻿using System.Diagnostics;
+﻿
+using System.Diagnostics;
 using System.Dynamic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoeWebshop.Data;
 using ShoeWebshop.Models;
+using ShoeWebshop.Views.Home;
 
 namespace ShoeWebshop.Controllers;
 
@@ -70,12 +72,38 @@ public class HomeController : Controller
         dynamic dmodel = new ExpandoObject();
         dmodel.Brands = _db.Brands;
         dmodel.Categories = _db.Categories;
+        dmodel.Colors = _db.Colors;
         return View(dmodel);
     }
     [HttpPost]
-    public IActionResult ProductManagement(Shoe shoe, IFormFile image)
+    public IActionResult ProductManagement(ShoeViewModel svm, IFormFile picturedata)
     {
-        shoe.ShoeID = Guid.NewGuid().ToString();
+        svm.Shoe.ShoeID = Guid.NewGuid().ToString();
+        svm.Color.ShoeID = svm.Shoe.ShoeID;
+        using (var stream = picturedata.OpenReadStream())
+        {
+            byte[] buffer = new byte[picturedata.Length];
+            stream.Read(buffer, 0, (int)picturedata.Length);
+            svm.Color.Image1 = buffer;
+            svm.Color.ContentType1 = picturedata.ContentType;
+        }
+        svm.Color.Image2 = svm.Color.Image1;
+        svm.Color.Image3 = svm.Color.Image1;
+        svm.Color.Image4 = svm.Color.Image1;
+        svm.Color.ContentType2 = svm.Color.ContentType1;
+        svm.Color.ContentType3 = svm.Color.ContentType1;
+        svm.Color.ContentType4 = svm.Color.ContentType1;
+        _db.Shoes.Add(svm.Shoe);
+        _db.Colors.Add(svm.Color);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(ProductManagement));
+    }
+
+    /*
+    [HttpPost]
+    public IActionResult PM_Color(Color color, IFormFile image)
+    {
+        color.ColorID = Guid.NewGuid().ToString();
         //using (var stream = image.OpenReadStream())
         //{
         //    byte[] buffer = new byte[image.Length];
@@ -83,12 +111,11 @@ public class HomeController : Controller
         //    //shoe.Images = buffer;
         //    //shoe.ContentType = image.ContentType;
         //}
-        _db.Shoes.Add(shoe);
+        _db.Colors.Add(color);
         _db.SaveChanges();
         return RedirectToAction(nameof(ProductManagement));
     }
-
-
+    */
 
 
     [Authorize(Roles = "Admin")]

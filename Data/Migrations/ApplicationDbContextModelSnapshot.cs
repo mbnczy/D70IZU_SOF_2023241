@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "d0449aa4-9d3e-4ecb-be8f-979459fc7b97",
+                            ConcurrencyStamp = "0679c138-0f3b-46c8-a81f-5c82baa8e0cb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "b2edc072-ed65-4a4a-9693-724167257495",
+                            ConcurrencyStamp = "0b62bcbb-ca70-47ce-b43d-53e5fff68c25",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -258,14 +258,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            BrandID = "4b0fd623-2ec9-4673-9bca-7e296368dbee",
+                            BrandID = "936c46b0-5ce0-4459-8166-3dbc16911496",
                             Country_of_origin = "Germany",
                             Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Adidas"
                         },
                         new
                         {
-                            BrandID = "4efd015a-3137-40e9-94ce-2e4e8366e61b",
+                            BrandID = "e132653c-3c16-4526-8250-daeccf7fa460",
                             Country_of_origin = "USA",
                             Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Nike"
@@ -292,7 +292,7 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "c45b0113-e8b2-405b-a998-5d18e271fc93",
+                            CategoryID = "ae24a4a9-86b2-4a79-8ca6-b50156258da5",
                             Description = "expensive",
                             Name = "Sneaker"
                         });

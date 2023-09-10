@@ -4,6 +4,64 @@
 <h1>Product Management</h1>
 
 <h2>Add Shoes</h2>
-<partial name="_PM_AddShoePartial" />
+@using (Html.BeginForm("PM_AddShoe", "Home", FormMethod.Post))
+{
+    
+    <!--<partial name="_PM_AddShoePartial" />-->
+}
+<form method="post" enctype="multipart/form-data" class="photoForm">
+    <label>Brand</label>
+    <select name="shoe.BrandID">
+        @foreach (var item in Model.Brands)
+        {
+            <option value="@item.BrandID">@item.Name</option>
+        }
+    </select>
+    <label>Category</label>
+    <select name="shoe.CategoryID">
+        @foreach (var item in Model.Categories)
+        {
+            <option value="@item.CategoryID">@item.Name</option>
+        }
+    </select>
+    <label>Name</label>
+    <input type="text" name="shoe.name" />
+    <label>Sex</label>
+    <select name="shoe.sex">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Unisex" selected>Unisex</option>
+        <option value="Kids">Kids</option>
+    </select>
+    <label>Description</label>
+    <input type="text" name="shoe.description" />
+    <label>Weight</label>
+    <input type="number" name="shoe.weight" />
+
+    <br></br>
+    <!--Color-->
+    <label>Color</label>
+    <input type="text" name="color.name" />
+    <label>Hexa</label>
+    <input type="text" name="color.hexa_code" />
+    <input type="hidden" name="color.shoeid" value="" />
+
+    <input type="hidden" name="contenttype" value="asdf" />
+    <input type="file" name="picturedata" />
+    <!--
+    <input type="file" name="image2" />
+    <input type="file" name="image3" />
+    <input type="file" name="image4" />
+     -->
+    <!--
+    <label>Upload image</label>
+    <input type="file" name="image" />
+
+    <input type="hidden" name="images" value="" />
+    <input type="hidden" name="contenttype" value="" />
+     -->
+    <input type="submit" value="Add" />
+</form>
+
 
 
