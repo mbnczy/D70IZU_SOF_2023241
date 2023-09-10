@@ -72,11 +72,11 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult ProductManagement()
     {
-        dynamic dmodel = new ExpandoObject();
-        dmodel.Brands = _db.Brands;
-        dmodel.Categories = _db.Categories;
-        dmodel.Colors = _db.Colors;
-        return View(dmodel);
+        //dynamic dmodel = new ExpandoObject();
+        //dmodel.Brands = _db.Brands;
+        //dmodel.Categories = _db.Categories;
+        //dmodel.Colors = _db.Colors;
+        return View(_db.Shoes);
     }
     [HttpPost]
     public IActionResult ProductManagement(ShoeViewModel svm)

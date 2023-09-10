@@ -96,6 +96,26 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(addshoe));
     }
 
+    [HttpGet]
+    public IActionResult addbrand()
+    {
+        return View();
+    }
+    [HttpPost]
+    public IActionResult addbrand(Brand brand, IFormFile logodata)
+    {
+        brand.BrandID = Guid.NewGuid().ToString();
+        using (var stream = logodata.OpenReadStream())
+        {
+            byte[] buffer = new byte[logodata.Length];
+            stream.Read(buffer, 0, (int)logodata.Length);
+            brand.Logo = buffer;
+            brand.ContentType = logodata.ContentType;
+        }
+        _db.Brands.Add(brand);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(addbrand));
+    }
     /*
     [HttpPost]
     public IActionResult PM_Color(Color color, IFormFile image)
@@ -113,6 +133,10 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(ProductManagement));
     }
     */
-
+    public IActionResult GetLogo(string id)
+    {
+        Brand brand = _db.Brands.FirstOrDefault(x => x.BrandID == id);
+        return new FileContentResult(brand.Logo, brand.ContentType);
+    }
 }
 

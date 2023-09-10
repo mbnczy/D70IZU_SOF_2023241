@@ -42,22 +42,22 @@ public class ApplicationDbContext : IdentityDbContext
                 }
                 );
 
-        builder.Entity<Brand>().HasData(
-                new Brand()
-                {
-                    BrandID = Guid.NewGuid().ToString(),
-                    Name = "Adidas",
-                    Country_of_origin = "Germany",
-                    Founded_year = new DateTime(1949,8,18)
-                },
-                new Brand()
-                {
-                    BrandID = Guid.NewGuid().ToString(),
-                    Name = "Nike",
-                    Country_of_origin = "USA",
-                    Founded_year = new DateTime(1964, 1, 25)
-                }
-            );
+        //builder.Entity<Brand>().HasData(
+        //        new Brand()
+        //        {
+        //            BrandID = Guid.NewGuid().ToString(),
+        //            Name = "Adidas",
+        //            Country_of_origin = "Germany",
+        //            Founded_year = new DateTime(1949,8,18)
+        //        },
+        //        new Brand()
+        //        {
+        //            BrandID = Guid.NewGuid().ToString(),
+        //            Name = "Nike",
+        //            Country_of_origin = "USA",
+        //            Founded_year = new DateTime(1964, 1, 25)
+        //        }
+        //    );
 
         builder.Entity<Color>()
             .HasOne(x => x.Shoe)

@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "0679c138-0f3b-46c8-a81f-5c82baa8e0cb",
+                            ConcurrencyStamp = "cea95106-316d-4ab1-9a8b-8a85660c3284",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "0b62bcbb-ca70-47ce-b43d-53e5fff68c25",
+                            ConcurrencyStamp = "472ab1ca-b951-4797-b2d4-2beada750bc0",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -240,12 +240,20 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("BrandID")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Country_of_origin")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Founded_year")
                         .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Logo")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -254,22 +262,6 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("BrandID");
 
                     b.ToTable("Brands");
-
-                    b.HasData(
-                        new
-                        {
-                            BrandID = "936c46b0-5ce0-4459-8166-3dbc16911496",
-                            Country_of_origin = "Germany",
-                            Founded_year = new DateTime(1949, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Adidas"
-                        },
-                        new
-                        {
-                            BrandID = "e132653c-3c16-4526-8250-daeccf7fa460",
-                            Country_of_origin = "USA",
-                            Founded_year = new DateTime(1964, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Nike"
-                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Category", b =>
@@ -292,7 +284,7 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "ae24a4a9-86b2-4a79-8ca6-b50156258da5",
+                            CategoryID = "ff3be41c-72a2-42c4-aa81-cd9acfc4494a",
                             Description = "expensive",
                             Name = "Sneaker"
                         });

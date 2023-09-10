@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Shoe>
+
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+    <div class="container">
+        <!-- Customize the content of your second navbar as needed -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between navbar-toggler-left">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Manage">Manage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addshoe">Add New Shoe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#">Add new Brand</a>
+                </li>
+                <!-- Add more items as needed -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<h2>List Shoes</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="@item.Brand.Name" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Name</h4>
+                        <h6 class="card-title">@item.Category</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>

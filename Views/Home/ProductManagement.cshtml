@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<Shoe>
 
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
@@ -11,13 +11,13 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between navbar-toggler-left">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Manage">Manage</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ProductManagement">Manage</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addshoe">Add New Shoe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Add new Brand</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addbrand">Add new Brand</a>
                 </li>
                 <!-- Add more items as needed -->
             </ul>
@@ -27,3 +27,22 @@
 
 
 <h1>Manage all</h1>
+
+<h2>List Shoes</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col">
+                    <div class="card">
+                        <img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img>
+                        <div class="card-body">
+                            <h4 class="card-title">@item.Brand.Name @item.Name</h4>
+                            <h6 class="card-title">@item.Category.Name</h6>
+                        </div>
+                    </div>
+            </div>
+        }
+    }
+</div>
