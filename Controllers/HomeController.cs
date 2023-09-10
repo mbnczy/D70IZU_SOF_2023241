@@ -1,6 +1,8 @@
 ﻿
+using System;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -76,23 +78,57 @@ public class HomeController : Controller
         return View(dmodel);
     }
     [HttpPost]
-    public IActionResult ProductManagement(ShoeViewModel svm, IFormFile picturedata)
+    public IActionResult ProductManagement(ShoeViewModel svm,
+        IFormFile picturedata1,
+        IFormFile picturedata2,
+        IFormFile picturedata3,
+        IFormFile picturedata4)
     {
         svm.Shoe.ShoeID = Guid.NewGuid().ToString();
         svm.Color.ShoeID = svm.Shoe.ShoeID;
-        using (var stream = picturedata.OpenReadStream())
+
+
+        List<IFormFile> pictureDataList = new List<IFormFile>() { picturedata1, picturedata2, picturedata3, picturedata4 };
+        PropertyInfo[] colorPropertyInfo = new PropertyInfo[5];
+        PropertyInfo[] contentTypePropertyInfo = new PropertyInfo[5];
+        for (int i = 1; i <= 4; i++)
         {
-            byte[] buffer = new byte[picturedata.Length];
-            stream.Read(buffer, 0, (int)picturedata.Length);
-            svm.Color.Image1 = buffer;
-            svm.Color.ContentType1 = picturedata.ContentType;
+            colorPropertyInfo[i] = svm.Color.GetType().GetProperty("Image"+i);
+            contentTypePropertyInfo[i] = svm.Color.GetType().GetProperty("ContentType"+i);
         }
-        svm.Color.Image2 = svm.Color.Image1;
-        svm.Color.Image3 = svm.Color.Image1;
-        svm.Color.Image4 = svm.Color.Image1;
-        svm.Color.ContentType2 = svm.Color.ContentType1;
-        svm.Color.ContentType3 = svm.Color.ContentType1;
-        svm.Color.ContentType4 = svm.Color.ContentType1;
+        for (int i = 0; i < pictureDataList.Count; i++)
+        {
+            if (pictureDataList[i] is not null)
+            {
+                using (var stream = pictureDataList[i].OpenReadStream())
+                {
+                    byte[] buffer = new byte[pictureDataList[i].Length];
+                    stream.Read(buffer, 0, (int)pictureDataList[i].Length);
+
+                    // Set Image and ContentType properties using reflection
+                    colorPropertyInfo[i + 1].SetValue(svm.Color, buffer);
+                    contentTypePropertyInfo[i + 1].SetValue(svm.Color, pictureDataList[i].ContentType);
+                }
+            }
+            else
+            {
+                colorPropertyInfo[i + 1].SetValue(svm.Color, new byte[0]);
+                contentTypePropertyInfo[i + 1].SetValue(svm.Color, "");
+            }
+        }
+        //using (var stream = picturedata1.OpenReadStream())
+        //{
+        //    byte[] buffer = new byte[picturedata1.Length];
+        //    stream.Read(buffer, 0, (int)picturedata1.Length);
+        //    svm.Color.Image1 = buffer;
+        //    svm.Color.ContentType1 = picturedata1.ContentType;
+        //}
+        //svm.Color.Image2 = svm.Color.Image1;
+        //svm.Color.Image3 = svm.Color.Image1;
+        //svm.Color.Image4 = svm.Color.Image1;
+        //svm.Color.ContentType2 = svm.Color.ContentType1;
+        //svm.Color.ContentType3 = svm.Color.ContentType1;
+        //svm.Color.ContentType4 = svm.Color.ContentType1;
         _db.Shoes.Add(svm.Shoe);
         _db.Colors.Add(svm.Color);
         _db.SaveChanges();

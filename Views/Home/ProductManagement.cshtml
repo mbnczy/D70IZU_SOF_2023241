@@ -9,7 +9,7 @@
     
     <!--<partial name="_PM_AddShoePartial" />-->
 }
-<form method="post" enctype="multipart/form-data" class="photoForm">
+<form id="ShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
     <label>Brand</label>
     <select name="shoe.BrandID">
         @foreach (var item in Model.Brands)
@@ -47,7 +47,14 @@
     <input type="hidden" name="color.shoeid" value="" />
 
     <input type="hidden" name="contenttype" value="asdf" />
-    <input type="file" name="picturedata" />
+
+
+    <div id="ColorInputsContainer">
+        <!-- Initially, display one file input -->
+        <input type="file" name="picturedata1" />
+    </div>
+    <button type="button" id="addColorInput">Add Pic</button>
+
     <!--
     <input type="file" name="image2" />
     <input type="file" name="image3" />
@@ -63,5 +70,27 @@
     <input type="submit" value="Add" />
 </form>
 
+<script>
+    let PicInputCount = 1;
+    // Get references to the form and the container for file inputs
+    const PicUploadForm = document.getElementById("ShoeUploadForm");
+    const PicInputsContainer = document.getElementById("ColorInputsContainer");
+    // Get reference to the "Add File Input" button
+    const addPicInputButton = document.getElementById("addColorInput");
+    // Function to add a new file input element
+    function addPicInput() {
+        if (PicInputCount < 4) {
+            PicInputCount++;
+            const newPicInput = document.createElement("input");
+            newPicInput.setAttribute("type", "file");
+            newPicInput.setAttribute("name", "picturedata" + PicInputCount);
+            PicInputsContainer.appendChild(newPicInput);
+        } else {
+            alert("You can only add up to 4 file inputs.");
+        }
+    }
 
+    // Attach a click event listener to the "Add File Input" button
+    addPicInputButton.addEventListener("click", addPicInput);
+</script>
 
