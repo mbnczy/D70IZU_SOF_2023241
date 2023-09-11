@@ -72,11 +72,12 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult ProductManagement()
     {
-        //dynamic dmodel = new ExpandoObject();
-        //dmodel.Brands = _db.Brands;
+        dynamic dmodel = new ExpandoObject();
+        dmodel.Shoes = _db.Shoes;
+        dmodel.Colors = _db.Colors;
         //dmodel.Categories = _db.Categories;
         //dmodel.Colors = _db.Colors;
-        return View(_db.Shoes);
+        return View(dmodel);
     }
     [HttpPost]
     public IActionResult ProductManagement(ShoeViewModel svm)
@@ -201,7 +202,12 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    
-
+    [HttpGet]
+    public IActionResult GetColorsById(string id)
+    {
+        var colors = _db.Colors.Where(c => c.ShoeID == id).ToList();
+        ;
+        return Json(colors);
+    }
 }
 

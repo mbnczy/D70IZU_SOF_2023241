@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Shoe>
+﻿@model dynamic
 
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
@@ -33,34 +33,76 @@
         height: 300px;
         display: flex;
         flex-direction: column;
-        overflow:hidden;
+        overflow: hidden;
     }
 
-    /* Ensure images within cards scale proportionally and fit within the card height */
+        /* Ensure images within cards scale proportionally and fit within the card height */
         .card img {
             height: auto;
             width: 100%;
             overflow: hidden;
         }
+    .SpecificShoeForm{
+        text-align:right;
+    }
 </style>
+<h2>Stock:</h2>
+<div class="SpecificShoeForm">
+    <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+        
+        <label>Choose color</label>
+        <select id="color-select" name="shoe.ColorID">
+            <!-- Options will be populated dynamically -->
+        </select>
+        
+    </form>
+</div>
 
-<h1>Manage all</h1>
-
-<h2>List Shoes</h2>
 
 <div class="row row-cols-1 row-cols-md-5 g-4">
     @{
-        foreach (var item in Model)
+        foreach (var item in Model.Shoes)
         {
             <div class="col">
-                    <div class="card">
-                        <img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img>
-                        <div class="card-body">
-                            <h4 class="card-title">@item.Brand.Name @item.Name</h4>
-                            <h6 class="card-title">@item.Category.Name</h6>
-                        </div>
+                <div class="card" data-shoe-id="@item.ShoeID" onclick="populateColorSelect(this)">
+                    <img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Brand.Name @item.Name</h4>
+                        <h6 class="card-title">@item.Category.Name</h6>
                     </div>
+                </div>
             </div>
         }
     }
 </div>
+
+
+
+<script>function populateColorSelect(card) {
+        var shoeId = card.getAttribute("data-shoe-id");
+        var colorSelect = document.getElementById("color-select");
+
+        // Make an AJAX request to retrieve colors for the selected shoe ID
+        $.ajax({
+            url: '/Home/GetColorsById', // Replace with the actual URL of your controller action
+            type: 'GET',
+            data: { id: shoeId },
+            dataType: 'json',
+            success: function (colors) {
+                // Clear existing options
+                colorSelect.innerHTML = '';
+
+                // Populate the select options with colors
+                colors.forEach(function (color) {
+                    var option = document.createElement('option');
+                    option.value = color.ColorID;
+                    option.textContent = color.Name;
+                    colorSelect.appendChild(option);
+                    ;
+                });
+            },
+            error: function () {
+                console.error('Failed to retrieve color options.');
+            }
+        });
+    }</script>
