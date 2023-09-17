@@ -52,13 +52,31 @@
     <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
 
         <label>Choose color</label>
-        <select id="color-select" name="shoe.ColorID">
+        <select id="color-select" name="ColorID">
             <!-- Options will be populated dynamically -->
         </select>
+        <label>Images:</label>
         <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">
             <!-- Images will be populated dynamically -->
         </div>
+        <label>Order type</label>
+        <select name="order_type">
+            <option value="">On Stock</option>
+            <option value="">Out of Stock</option>
+            <option value="">Available</option>
+            <option value="">PreOrder</option>
+        </select>
+        <label>Quantity on stock:</label>
+        <input type="number" name="quantity_on_stock" />
+        <label>Price</label>
+        <input type="number" name="price" />
+        <label>Discount</label>
+        <input type="number" name="discount" />
 
+        <input type="hidden" name="shoeid" id="shoeid"/>
+        <input type="hidden" name="colorid" id="colorid"/>
+
+        <input type="submit" value="Push" />
     </form>
 </div>
 
@@ -86,13 +104,17 @@
     var colorSelect = document.getElementById("color-select");
     var div = document.getElementById("image-container");
 
+    var input_shoeid = document.getElementById("shoeid")
+    var input_colorid = document.getElementById("colorid")
+
+
     colorSelect.addEventListener("change", GetImagesFromColor);
 
     function GetImagesFromColor() {
         var selectedOptionId = colorSelect.value;
         console.log("Selected Option ID:", selectedOptionId);
         div.innerHTML = '';
-
+        input_colorid = selectedOptionId;
         getImageCountAjax(selectedOptionId)
             .then(function (count) {
                 let indexer = 1;
@@ -118,6 +140,7 @@
                         div_col.appendChild(div_card);
                         div.appendChild(div_col);
                     }
+                    
                     indexer++;
                 }
             });
@@ -182,6 +205,9 @@
                     option.textContent = color.name;
                     colorSelect.appendChild(option);
                 });
+
+                input_shoeid.name = shoeId;
+                
                 GetImagesFromColor();
             },
             error: function () {

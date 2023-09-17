@@ -37,9 +37,12 @@ public class ProductsController : Controller
         return View(dmodel);
     }
     [HttpPost]
-    public IActionResult ProductManagement(ShoeViewModel svm)
+    public IActionResult ProductManagement(SpecificShoe sshoe)
     {
-        return View();
+        sshoe.SpecificShoeID = Guid.NewGuid().ToString();
+        _db.Specific_shoe_details.Add(sshoe);
+        _db.SaveChanges();
+        return RedirectToAction(nameof(ProductManagement));
     }
 
     [Authorize(Roles = "Admin,Staff")]
