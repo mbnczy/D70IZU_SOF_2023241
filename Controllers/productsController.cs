@@ -34,16 +34,17 @@ public class ProductsController : Controller
         dmodel.Brands = _db.Brands;
         dmodel.Categories = _db.Categories;
         dmodel.Colors = _db.Colors;
+        dmodel.Shoes = _db.Shoes;
         return View(dmodel);
     }
-    [HttpPost]
-    public IActionResult ProductManagement(SpecificShoe sshoe)
-    {
-        sshoe.SpecificShoeID = Guid.NewGuid().ToString();
-        _db.Specific_shoe_details.Add(sshoe);
-        _db.SaveChanges();
-        return RedirectToAction(nameof(ProductManagement));
-    }
+    //[HttpPost]
+    //public IActionResult ProductManagement(SpecificShoe sshoe)
+    //{
+    //    sshoe.SpecificShoeID = Guid.NewGuid().ToString();
+    //    _db.Specific_shoe_details.Add(sshoe);
+    //    _db.SaveChanges();
+    //    return RedirectToAction(nameof(ProductManagement));
+    //}
 
     [Authorize(Roles = "Admin,Staff")]
     [HttpGet]

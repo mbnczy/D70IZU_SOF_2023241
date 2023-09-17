@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Reflection;
+using System.Runtime.Intrinsics.X86;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -80,9 +81,13 @@ public class HomeController : Controller
         return View(dmodel);
     }
     [HttpPost]
-    public IActionResult ProductManagement(ShoeViewModel svm)
+    public IActionResult ProductManagement(SpecificShoe sshoe)
     {
-        return View();
+        sshoe.SpecificShoeID = Guid.NewGuid().ToString();
+        _db.Specific_shoe_details.Add(sshoe);
+        ;
+        _db.SaveChanges();
+        return RedirectToAction(nameof(ProductManagement));
     }
 
     //[Authorize(Roles = "Admin,Staff")]
