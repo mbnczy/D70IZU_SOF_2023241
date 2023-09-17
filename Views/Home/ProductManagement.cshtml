@@ -49,12 +49,15 @@
 <h2>Stock:</h2>
 <div class="SpecificShoeForm">
     <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
-        
+
         <label>Choose color</label>
         <select id="color-select" name="shoe.ColorID">
             <!-- Options will be populated dynamically -->
         </select>
-        
+        <div class="divimages" id="image-container">
+            
+        </div>
+
     </form>
 </div>
 
@@ -78,9 +81,80 @@
 
 
 
-<script>function populateColorSelect(card) {
+<script>
+    // Get the select element
+    var colorSelect = document.getElementById("color-select");
+    var div = document.getElementById("image-container");
+
+    // Get the image element
+    //var selectedOptionImage = document.getElementById("selected-option-image");
+
+    //colorSelect.addEventListener("change", function () {
+    //    var selectedOptionId = colorSelect.value;
+    //    console.log("Selected Option ID:", selectedOptionId);
+
+    //    // Make an asynchronous request to GetImages action
+    //    $.ajax({
+    //        url: '/Home/GetImages', // Replace with the actual URL of your controller action
+    //        type: 'GET',
+    //        data: { id: selectedOptionId },
+    //        dataType: 'json',
+    //        success: function (images) {
+    //            // Clear existing options
+    //            //selectedOptionImage.src = '';
+    //            console.log(images)
+
+    //            // Populate the select options with colors
+    //            images.forEach(function (color) {
+    //                //var base64Image = Convert.ToBase64String(imageData);
+    //                var img = document.createElement('img');
+
+    //                var imageData = color.fileContents;
+    //                var contentType = color.contentType;
+    //                console.log(contentType)
+    //                var binary = new Uint8Array(imageData);
+
+    //                var base64Image = btoa(String.fromCharCode.apply(null, binary));
+    //                var dataUrl = `data:${contentType};base64,${base64Image}`;
+
+    //                //img.src = "data:{"+contentType+"+};base64,{"+base64Image+"+}";
+    //                img.src = dataUrl;
+    //                div.appendChild(img);
+    //            });
+    //        },
+    //        error: function () {
+    //            console.error('Failed to retrieve color options.');
+    //        }
+    //    });
+    //});
+
+
+    colorSelect.addEventListener("change", function () {
+        var selectedOptionId = colorSelect.value;
+        console.log("Selected Option ID:", selectedOptionId);
+        div.innerHTML = '';
+
+        let indexer = 1;
+        while (indexer < 5) {
+            var img = document.createElement('img');
+
+            var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
+
+            // Replace placeholders with actual values
+            url = url.replace("PLACEHOLDER_ID", selectedOptionId)
+                .replace("PLACEHOLDER_INDEX", indexer.toString());
+            img.src = url;
+            //img.src = "@Url.Action("GetImage", "Home")" + "?id=" + selectedOptionId;
+            div.appendChild(img);
+
+            indexer++;
+        }
+    });
+
+    function populateColorSelect(card) {
         var shoeId = card.getAttribute("data-shoe-id");
         var colorSelect = document.getElementById("color-select");
+        //var images = document.getElementById("divimages");
 
         // Make an AJAX request to retrieve colors for the selected shoe ID
         $.ajax({
@@ -91,18 +165,20 @@
             success: function (colors) {
                 // Clear existing options
                 colorSelect.innerHTML = '';
+                console.log(colors)
 
                 // Populate the select options with colors
                 colors.forEach(function (color) {
+                    console.log(color)
                     var option = document.createElement('option');
-                    option.value = color.ColorID;
-                    option.textContent = color.Name;
+                    option.value = color.colorID;
+                    option.textContent = color.name;
                     colorSelect.appendChild(option);
-                    ;
                 });
             },
             error: function () {
                 console.error('Failed to retrieve color options.');
             }
         });
-    }</script>
+    }
+</script>

@@ -66,7 +66,50 @@
     <input type="submit" value="Add" />
 </form>
 
+<style>
+    /* Add a CSS style to set a fixed height for the cards */
+    .card {
+        border: 1px solid black;
+        width: 250px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+        /* Ensure images within cards scale proportionally and fit within the card height */
+    .card img {
+        height: auto;
+        width: 100%;
+        overflow: hidden;
+    }
+</style>
+
+<div class="row row-cols-1 row-cols-md-5 g-4">
+    @{
+        foreach (var item in Model.Shoes)
+        {
+            <div class="col">
+                <div class="card" data-shoe-id="@item.ShoeID" onclick="getShoeId(this)">
+                    <img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Brand.Name @item.Name</h4>
+                        <h6 class="card-title">@item.Category.Name</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+
 <script>
+     function getShoeId(card) {
+        var shoeId = card.getAttribute("data-shoe-id");
+        // Now you can use the shoeId as needed
+        alert("Clicked Shoe ID: " + shoeId);
+     }
     const ColorUploadForm = document.getElementById("ShoeUploadForm");
     const ColorInputsContainer = document.getElementById("ColorInputsContainer");
     const addColorInputButton = document.getElementById("addColorInput");

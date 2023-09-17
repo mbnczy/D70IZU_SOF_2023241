@@ -206,8 +206,153 @@ public class HomeController : Controller
     public IActionResult GetColorsById(string id)
     {
         var colors = _db.Colors.Where(c => c.ShoeID == id).ToList();
-        ;
-        return Json(colors);
+        var jsoncolors = Json(colors);
+        
+        return jsoncolors;
+    }
+    public IActionResult GetImages(string id)
+    {
+        //Color colorx = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        //var spec_color = from color in _db.Colors
+        //             where color.ColorID == id
+        //             select new List<FileContentResult>()
+        //             {
+        //                new FileContentResult(color.Image1,color.ContentType1),
+        //                new FileContentResult(color.Image2,color.ContentType2),
+        //                new FileContentResult(color.Image3,color.ContentType3),
+        //                new FileContentResult(color.Image4,color.ContentType4),
+        //             };
+        ////List<FileContentResult> results = from color in spec_color
+        //var a = Json(spec_color);
+        //;
+        //return new FileContentResult(colorx.Image1, colorx.ContentType1);
+        // Retrieve the Color object from the database
+
+        Color color = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        if (color != null)
+        {
+            // Create a list to store the FileContentResult objects
+            List<FileContentResult> fileContentResults = new List<FileContentResult>();
+
+            // Add FileContentResult objects for each image
+
+            if (color.ContentType1 is not "")
+            {
+                fileContentResults.Add(new FileContentResult(color.Image1, color.ContentType1));
+            }
+            if (color.ContentType2 is not "")
+            {
+                fileContentResults.Add(new FileContentResult(color.Image2, color.ContentType2));
+            }
+            if (color.ContentType3 is not "")
+            {
+                fileContentResults.Add(new FileContentResult(color.Image3, color.ContentType3));
+            }
+            if (color.ContentType4 is not "")
+            {
+                fileContentResults.Add(new FileContentResult(color.Image4, color.ContentType4));
+            }
+            // Return the list of FileContentResult objects
+            return new JsonResult(fileContentResults);
+        }
+        // Handle the case where the Color object was not found
+        return NotFound();
+
+
+        //var colorSelect = document.getElementById("color-select");
+        //var selectedOptionImage = document.getElementById("selected-option-image");
+        //colorSelect.addEventListener("change", function() {
+        //    var selectedOptionId = colorSelect.value;
+        //    console.log("Selected Option ID:", selectedOptionId);
+
+        //    selectedOptionImage.src = "@Url.Action("GetImages", "Home")" + "?id=" + selectedOptionId;
+        //});
+
+        //fetch("@Url.Action("GetImages", "Home")" + "?id=" + selectedOptionId)
+        //    .then(response => {
+        //        if (!response.ok)
+        //        {
+        //            throw new Error('Network response was not ok');
+        //        }
+        //        return response.json();
+        //    })
+        //    .then(imageUrls => {
+        //        // Clear the existing image
+        //        selectedOptionImage.src = "";
+
+        //        // Update the image element(s) with the received image URLs
+        //        if (imageUrls && imageUrls.length > 0)
+        //        {
+        //            selectedOptionImage.src = imageUrls[0]; // Display the first image
+
+        //            // If you want to display multiple images, you can loop through the imageUrls array
+        //            // and create additional image elements or update existing ones as needed.
+        //        }
+        //    })
+        //    .catch(error => {
+        //        console.error("Error fetching image URLs:", error);
+        //    });
+
+
+
+        //document.getElementById("color-select").addEventListener("change", function() {
+        //    // Get the selected color ID
+        //    var selectedColorId = this.value;
+
+        //    var url = '@Url.Action("GetImages", "Home")' + '?id=' + selectedColorId;
+
+        //    // Make an AJAX request to fetch images based on the selected color
+        //    fetch(url)
+        //        .then(response => {
+        //            if (!response.ok)
+        //            {
+        //                throw new Error('Failed to fetch images.');
+        //            }
+        //            return response.json(); // Parse the JSON response
+        //        })
+        //        .then(images => {
+        //            // Clear the existing images
+        //            document.getElementById("image-container").innerHTML = '';
+
+        //            // Display the fetched images
+        //            images.forEach(imageUrl => {
+        //                var imageData = imageUrl.fileContents;
+        //                var contentType = imageUrl.contentType;
+        //                console.log(contentType)
+    
+        //                var binary = new Uint8Array(imageData);
+
+        //                var base64Image = btoa(String.fromCharCode.apply(null, binary));
+        //                var dataUrl = `data:${ contentType}; base64,${ base64Image}`;
+
+        //                //img.src = "data:{"+contentType+"+};base64,{"+base64Image+"+}";
+        //                var img = document.createElement("img");
+        //                img.src = dataUrl;
+        //                document.getElementById("image-container").appendChild(img);
+        //            });
+        //        })
+        //        .catch(error => {
+        //            console.error('Error fetching images:', error);
+        //        });
+        //});
+    }
+
+
+    public IActionResult GetImage(string id, string index)
+    {
+        int i = Convert.ToInt32(index);
+        Color color = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+
+        string? contenttype = (string)typeof(Color).GetProperty($"ContentType{i}").GetValue(color);
+        if (contenttype != "")
+        {
+            byte[] img = (byte[])typeof(Color).GetProperty($"Image{i}").GetValue(color);
+            return new FileContentResult(img, contenttype);
+        }
+        else
+        {
+            return null;
+        };
     }
 }
 
