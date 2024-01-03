@@ -146,6 +146,7 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -159,6 +160,11 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
                                 Input.Country;
                 user.PhoneNumber = Input.Number;
                 user.Created_at = DateTime.Now;
+
+                if (ExternalLogins is not null)
+                {
+                    user.EmailConfirmed = true;
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
