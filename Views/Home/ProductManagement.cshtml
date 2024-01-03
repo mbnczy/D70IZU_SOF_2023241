@@ -67,7 +67,7 @@
             <option value="">PreOrder</option>
         </select>
         <label>Quantity on stock:</label>
-        <input type="number" name="quantity_on_stock" />
+        <input type="number" name="quantity_in_stock" />
         <label>Price</label>
         <input type="number" name="price" />
         <label>Discount</label>
@@ -130,7 +130,7 @@
                     var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
                     url = url.replace("PLACEHOLDER_ID", selectedOptionId)
                         .replace("PLACEHOLDER_INDEX", indexer.toString());
-
+                    console.log(url);
                     img.src = url;
                     img.className = "card-img-top";
 
