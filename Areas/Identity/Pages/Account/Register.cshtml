@@ -4,7 +4,7 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+@* <h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -99,6 +99,133 @@
                 }
             }
         </section>
+    </div>
+</div> *@
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <h2 class="text-success text-center">Create a new account.</h2>
+                        <hr class="mb-4" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                        <!-- Regisztrációs űrlap elemei -->
+                        <div class="mb-3">
+                            <label for="inputFirstName" class="form-label text-success">First Name</label>
+                            <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" required />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputLastName" class="form-label text-success">Last Name</label>
+                            <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true" required />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label text-success">Email</label>
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" required />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label text-success">Password</label>
+                            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" required />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputConfirmPassword" class="form-label text-success">Confirm Password</label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" required />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputNumber" class="form-label text-success">Number</label>
+                            <input asp-for="Input.Number" class="form-control" autocomplete="number" aria-required="true" />
+                            <span asp-validation-for="Input.Number" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputAddress" class="form-label text-success">Address</label>
+                            <input asp-for="Input.Address" class="form-control" autocomplete="address" aria-required="true" />
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputTownCity" class="form-label text-success">Town/City</label>
+                            <input asp-for="Input.TownCity" class="form-control" autocomplete="towncity" aria-required="true" />
+                            <span asp-validation-for="Input.TownCity" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputStateProvinceCounty" class="form-label text-success">State/Province/County</label>
+                            <input asp-for="Input.StateProvinceCounty" class="form-control" autocomplete="stateprovincecounty" aria-required="true" />
+                            <span asp-validation-for="Input.StateProvinceCounty" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPostcode" class="form-label text-success">Postcode</label>
+                            <input asp-for="Input.Postcode" class="form-control" autocomplete="postcode" aria-required="true" />
+                            <span asp-validation-for="Input.Postcode" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputCountry" class="form-label text-success">Country</label>
+                            <input asp-for="Input.Country" class="form-control" autocomplete="country" aria-required="true" />
+                            <span asp-validation-for="Input.Country" class="text-danger"></span>
+                        </div>
+
+
+
+                        <!-- Egyéb input mezők hasonló módon -->
+
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-success">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <section>
+                        <h3 class="text-success text-center">Use another service to register.</h3>
+                        <hr class="mb-4" />
+
+                        <!-- Külső bejelentkezési lehetőségek -->
+                        @{
+                            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                            {
+                                <div>
+                                    <p class="text-success text-center">
+                                        There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715" class="text-success">
+                                            article
+                                            about setting up this ASP.NET application to support logging in via external services
+                                        </a>.
+                                    </p>
+                                </div>
+                            }
+                            else
+                            {
+                                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal text-center">
+                                    <div>
+                                        <p>
+                                            @foreach (var provider in Model.ExternalLogins!)
+                                            {
+                                                <button type="submit" class="btn btn-secondary me-2" name="provider" value="@provider.Name" title="Register using your @provider.DisplayName account">@provider.DisplayName</button>
+                                            }
+                                        </p>
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
