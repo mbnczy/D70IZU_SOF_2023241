@@ -28,74 +28,106 @@
 <style>
     /* Add a CSS style to set a fixed height for the cards */
     .card {
-        border: 1px solid black;
+        border: 1px solid solid groove;
         width: 250px;
         height: 300px;
         display: flex;
         flex-direction: column;
         overflow: hidden;
+
     }
 
         /* Ensure images within cards scale proportionally and fit within the card height */
         .card img {
             height: auto;
-            width: 100%;
-            overflow: hidden;
+            width: auto;
+            object-fit: cover;
         }
-    .SpecificShoeForm{
-        text-align:right;
+
+    .card-body {
+        flex-grow: 1;
+    }
+
+    .SpecificShoeForm {
+        text-align: right;
     }
 </style>
 
-<h2>Stock:</h2>
-<div class="SpecificShoeForm">
-    <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
-
-        <label>Choose color</label>
-        <select id="color-select" name="ColorID">
-            <!-- Options will be populated dynamically -->
-        </select>
-        <label>Images:</label>
-        <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">
-            <!-- Images will be populated dynamically -->
-        </div>
-        <label>Order type</label>
-        <select name="order_type">
-            <option value="">On Stock</option>
-            <option value="">Out of Stock</option>
-            <option value="">Available</option>
-            <option value="">PreOrder</option>
-        </select>
-        <label>Quantity on stock:</label>
-        <input type="number" name="quantity_in_stock" />
-        <label>Price</label>
-        <input type="number" name="price" />
-        <label>Discount</label>
-        <input type="number" name="discount" />
-
-        <input type="hidden" name="shoeid" id="shoeid"/>
-        <input type="hidden" name="colorid" id="colorid"/>
-
-        <input type="submit" value="Push" />
-    </form>
-</div>
 
 
-<div class="row row-cols-1 row-cols-md-5 g-4">
-    @{
-        foreach (var item in Model.Shoes)
-        {
-            <div class="col">
-                <div class="card" data-shoe-id="@item.ShoeID" onclick="populateColorSelect(this)">
-                    <img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img>
-                    <div class="card-body">
-                        <h4 class="card-title">@item.Brand.Name @item.Name</h4>
-                        <h6 class="card-title">@item.Category.Name</h6>
+<div class="container mt-4">
+    <h2 class="text-success">Stock:</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="SpecificShoeForm">
+                <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+                    <div class="mb-3">
+                        <label for="color-select" class="form-label text-success">Choose color</label>
+                        <select id="color-select" name="ColorID" class="form-select">
+                            <!-- Options will be populated dynamically -->
+                        </select>
                     </div>
-                </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-success">Images:</label>
+                        <div class="row row-cols-1 row-cols-md-2 g-4" id="image-container">
+                            <!-- Images will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="order-type" class="form-label text-success">Order type</label>
+                        <select name="order_type" id="order-type" class="form-select">
+                            <option value="">On Stock</option>
+                            <option value="">Out of Stock</option>
+                            <option value="">Available</option>
+                            <option value="">PreOrder</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity-in-stock" class="form-label text-success">Quantity on stock:</label>
+                        <input type="number" name="quantity_in_stock" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label text-success">Price</label>
+                        <input type="number" name="price" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="discount" class="form-label text-success">Discount</label>
+                        <input type="number" name="discount" class="form-control" />
+                    </div>
+
+                    <input type="hidden" name="shoeid" id="shoeid" />
+                    <input type="hidden" name="colorid" id="colorid" />
+
+                    <div class="mb-3">
+                        <input type="submit" value="Push" class="btn btn-success" />
+                    </div>
+                </form>
             </div>
-        }
-    }
+        </div>
+
+        <div class="col">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                @foreach (var item in Model.Shoes)
+                {
+                    <div class="col-2">
+                        <div class="card" data-shoe-id="@item.ShoeID" onclick="populateColorSelect(this)" style="width: 9rem; display: flex; flex-direction: column; justify-content: space-between;">
+                            <img src="@Url.Action("GetLogo", "Products", new { id = item.BrandID })" class="card-img-top" alt="Brand Logo" >
+                            <div class="card-body">
+                                <h4 class="card-title text-success">@item.Brand.Name @item.Name</h4>
+                                <h6 class="card-title">@item.Category.Name </h6>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 
