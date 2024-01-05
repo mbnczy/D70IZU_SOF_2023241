@@ -104,7 +104,8 @@ public class ProductsController : Controller
     [HttpGet]
     public IActionResult addbrand()
     {
-        return View();
+        List<Brand> brands = _db.Brands.ToList();
+        return View(brands);
     }
     [HttpPost]
     public IActionResult addbrand(Brand brand, IFormFile logodata)
@@ -119,6 +120,15 @@ public class ProductsController : Controller
         }
         _db.Brands.Add(brand);
         _db.SaveChanges();
+        return RedirectToAction(nameof(addbrand));
+    }
+    [HttpGet]
+    public IActionResult Removebrand(string name)
+    { 
+        var brand = _db.Brands.ToList().FirstOrDefault(x => x.Name == name);
+        _db.Brands.Remove(brand);
+        _db.SaveChanges();
+
         return RedirectToAction(nameof(addbrand));
     }
     /*

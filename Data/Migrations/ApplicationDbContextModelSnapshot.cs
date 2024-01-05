@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "cea95106-316d-4ab1-9a8b-8a85660c3284",
+                            ConcurrencyStamp = "0c8c33b0-5aa1-4847-9a67-ff265b2a13f8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "472ab1ca-b951-4797-b2d4-2beada750bc0",
+                            ConcurrencyStamp = "d3ebe2e9-2720-42e9-b43f-0f95288db813",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -284,7 +284,7 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "ff3be41c-72a2-42c4-aa81-cd9acfc4494a",
+                            CategoryID = "7a2c870f-7d40-464f-87ad-a337f7b9cad4",
                             Description = "expensive",
                             Name = "Sneaker"
                         });
