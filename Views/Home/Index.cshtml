@@ -1,9 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@model IEnumerable<SpecificShoe>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-
+<h1>Available shoes</h1>
+<div class="row row-cols-1 row-cols-md-5 g-4">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card" data-shoe-id="@item.ShoeID">
+                    <img src="@Url.Action("GetFirstImage","Products", new {id = item.ShoeID})" class="card-img-top" alt="..."></img>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Shoe.Brand.Name @item.Shoe.Name</h4>
+                        <h6 class="card-title">@item.Shoe.Category.Name</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

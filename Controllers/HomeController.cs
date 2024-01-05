@@ -200,7 +200,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var sshoes = _db.Specific_shoe_details.ToList();
+        _db.SaveChanges();
+
+        return View(sshoes);
     }
 
     public IActionResult Privacy()

@@ -153,5 +153,10 @@ public class ProductsController : Controller
         Brand brand = _db.Brands.FirstOrDefault(x => x.BrandID == id);
         return new FileContentResult(brand.Logo, brand.ContentType);
     }
+    public IActionResult GetFirstImage(string id)
+    {
+        Color colorobj = _db.Colors.FirstOrDefault(x => x.ShoeID == id);
+        return new FileContentResult(colorobj.Image1, colorobj.ContentType1);
+    }
 }
 
