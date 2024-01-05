@@ -33,6 +33,19 @@ public class ApplicationDbContext : IdentityDbContext
             new IdentityRole{ Id = "2", Name = "Staff", NormalizedName = "STAFF" }
         );
 
+        builder.Entity<Size>().HasData(
+            new Size { SizeID = "1", Value = "UK - 6", Details = "" },
+            new Size { SizeID = "2", Value = "UK - 6.5", Details = "" },
+            new Size { SizeID = "3", Value = "UK - 7", Details = "" },
+            new Size { SizeID = "4", Value = "UK - 7.5", Details = "" },
+            new Size { SizeID = "5", Value = "UK - 8", Details = "" },
+            new Size { SizeID = "6", Value = "UK - 8.5", Details = "" },
+            new Size { SizeID = "7", Value = "UK - 9", Details = "" },
+            new Size { SizeID = "8", Value = "UK - 9.5", Details = "" },
+            new Size { SizeID = "9", Value = "UK - 10", Details = "" }
+        );
+
+
         builder.Entity<Category>().HasData(
                 new Category()
                 {
