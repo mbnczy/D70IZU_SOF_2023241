@@ -59,8 +59,11 @@
         <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">
             <!-- Images will be populated dynamically -->
         </div>
+        <select id="size-select" name="SizesID">
+            <!-- Options will be populated dynamically -->
+        </select>
         <label>Order type</label>
-        <select name="Order_type" >
+        <select name="Order_type">
             <option value="On Stock">On Stock</option>
             <option value="Out of Stock">Out of Stock</option>
             <option value="Available">Available</option>
@@ -72,11 +75,9 @@
         <input type="number" name="price" />
         <label>Discount</label>
         <input type="number" name="discount" />
-        <label>Size</label>
-        <input type="number" name="size" />
 
         <input type="hidden" name="shoeid" id="shoeidinput" />
-        <input type="hidden" name="colorid" id="colorid" />
+        <!--<input type="hidden" name="colorid" id="colorid" />-->
 
         <input type="submit" value="Push" />
     </form>
@@ -109,7 +110,7 @@
     var input_shoeid = document.getElementById("shoeid")
     var input_colorid = document.getElementById("colorid")
 
-
+    
     colorSelect.addEventListener("change", GetImagesFromColor);
 
     function GetImagesFromColor() {
@@ -214,6 +215,37 @@
             },
             error: function () {
                 console.error('Failed to retrieve color options.');
+            }
+        });
+        populateSizeSelect();
+    }
+
+    function populateSizeSelect() {
+        var sizeSelect = document.getElementById("size-select");
+
+        // Make an AJAX request to retrieve colors for the selected shoe ID
+        $.ajax({
+            url: '/Home/GetSizes',
+            type: 'GET',
+            dataType: 'json',
+            success: function (sizes) {
+                // Clear existing options
+                sizeSelect.innerHTML = '';
+                console.log(sizes)
+
+                // Populate the select options with colors
+                sizes.forEach(function (size) {
+                    console.log(size)
+                    var option = document.createElement('option');
+                    option.value = size.sizeID;
+                    option.textContent = size.value;
+                    console.log(option)
+                    sizeSelect.appendChild(option);
+                });
+
+            },
+            error: function () {
+                console.error('Failed to retrieve size options.');
             }
         });
 

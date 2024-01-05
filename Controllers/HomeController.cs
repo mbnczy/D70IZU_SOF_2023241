@@ -85,11 +85,17 @@ public class HomeController : Controller
     {
         sshoe.SpecificShoeID = Guid.NewGuid().ToString();
         _db.Specific_shoe_details.Add(sshoe);
-        ;
         _db.SaveChanges();
         return RedirectToAction(nameof(ProductManagement));
     }
+    [HttpGet]
+    public IActionResult GetSizes()
+    {
+        var sizes = _db.Sizes.ToList();
+        var jsonsizes = Json(sizes);
 
+        return jsonsizes;
+    }
     //[Authorize(Roles = "Admin,Staff")]
     //[HttpGet]
     //public IActionResult PM_AddShoe()
