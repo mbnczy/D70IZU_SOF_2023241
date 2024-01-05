@@ -1,5 +1,4 @@
 ﻿
-
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
     <div class="container">
         <!-- Customize the content of your second navbar as needed -->
@@ -16,7 +15,7 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addshoe">Add New Shoe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addbrand">Add new Brand</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="addbrand">Add New Brand</a>
                 </li>
                 <!-- Add more items as needed -->
             </ul>
@@ -24,23 +23,35 @@
     </div>
 </nav>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="display-4 text-success">Add New Brand</h2>
 
+            <form id="BrandUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+                <div class="mb-3">
+                    <label for="brandName" class="form-label text-dark">Name</label>
+                    <input type="text" class="form-control" id="brandName" name="Name" required />
+                </div>
 
-<h2>Add New Brand</h2>
+                <div class="mb-3">
+                    <label for="countryOrigin" class="form-label text-dark">Country of Origin</label>
+                    <input type="text" class="form-control" id="countryOrigin" name="country_of_origin" required />
+                </div>
 
-<form id="BrandUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
-    <label>Brand</label>
+                <div class="mb-3">
+                    <label for="foundedYear" class="form-label text-dark">Founded Year</label>
+                    <input type="date" class="form-control" id="foundedYear" name="founded_year" required />
+                </div>
 
-    <label>Name</label>
-    <input type="text" name="Name" />
-    <label>Country of origin</label>
-    <input type="text" name="country_of_origin" />
-    <label>Founded year</label>
-    <input type="date" name="founded_year" />
-    <input type="file" name="logodata" />
+                <div class="mb-3">
+                    <label for="logoData" class="form-label text-dark">Logo</label>
+                    <input type="file" class="form-control" id="logoData" name="logodata" required />
+                </div>
 
-    <input type="submit" value="Add Brand" />
-</form>
-
-
+                <button type="submit" class="btn btn-success">Add Brand</button>
+            </form>
+        </div>
+    </div>
+</div>
 
