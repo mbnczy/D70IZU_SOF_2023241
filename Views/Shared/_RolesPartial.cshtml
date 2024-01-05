@@ -4,13 +4,15 @@
 
 @if (SignInManager.IsSignedIn(User) && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Staff") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ProductManagement">Product Management</a>
+    <li class="nav-item mt-2 m-lg-2">
+        <a class="btn btn-outline-secondary btn-shadow" asp-area="" asp-controller="Home" asp-action="ProductManagement">Product Management</a>
     </li>
     @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserManagement">User Management</a>
+        <li class="nav-item mt-2 m-lg-2">
+            <a class="btn btn-outline-secondary btn-shadow" asp-area="" asp-controller="Home" asp-action="UserManagement">User Management</a>
         </li>
     }
 }
+
+
