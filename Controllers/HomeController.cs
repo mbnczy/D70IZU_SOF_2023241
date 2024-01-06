@@ -74,9 +74,10 @@ public class HomeController : Controller
     public IActionResult ProductManagement()
     {
         dynamic dmodel = new ExpandoObject();
-        dmodel.Shoes = _db.Shoes;
-        dmodel.Colors = _db.Colors;
-        //dmodel.Categories = _db.Categories;
+        dmodel.Shoes = _db.Shoes.ToList();
+        dmodel.Colors = _db.Colors.ToList();
+        dmodel.Categories = _db.Categories.ToList();
+        ;
         //dmodel.Colors = _db.Colors;
         return View(dmodel);
     }

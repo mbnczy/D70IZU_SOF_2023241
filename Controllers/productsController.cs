@@ -97,6 +97,7 @@ public class ProductsController : Controller
             }
         }
         _db.Shoes.Add(svm.Shoe);
+        ;
         _db.SaveChanges();
         return RedirectToAction(nameof(addshoe));
     }
