@@ -13,10 +13,16 @@
         {
             <div class="col">
                 <div class="card" data-shoe-id="@item.ShoeID">
-                    <img src="@Url.Action("GetFirstImage","Products", new {id = item.ShoeID})" class="card-img-top" alt="..."></img>
+                    <img src="@Url.Action("GetFirstImage","Products", new {id = item.ColorID})" class="card-img-top" alt="..."></img>
                     <div class="card-body">
                         <h4 class="card-title">@item.Shoe.Brand.Name @item.Shoe.Name</h4>
-                        <h6 class="card-title">@item.Shoe.Category.Name</h6>
+                        <h8 style="color: gray">@item.Size.Value</h8>
+                        @if (item.Discount.ToString() != "0")
+                         {
+                            <h6 style="color: red">-@item.Discount%</h6>
+                         }
+                        <h6>@item.Price Ft</h6>
+
                     </div>
                 </div>
             </div>

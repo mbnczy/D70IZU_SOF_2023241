@@ -85,6 +85,7 @@ public class HomeController : Controller
     public IActionResult ProductManagement(SpecificShoe sshoe)
     {
         sshoe.SpecificShoeID = Guid.NewGuid().ToString();
+        ;
         _db.Specific_shoe_details.Add(sshoe);
         _db.SaveChanges();
         return RedirectToAction(nameof(ProductManagement));

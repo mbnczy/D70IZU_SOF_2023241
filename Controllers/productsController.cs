@@ -156,7 +156,7 @@ public class ProductsController : Controller
     }
     public IActionResult GetFirstImage(string id)
     {
-        Color colorobj = _db.Colors.FirstOrDefault(x => x.ShoeID == id);
+        Color colorobj = _db.Colors.FirstOrDefault(x => x.ColorID == id);
         return new FileContentResult(colorobj.Image1, colorobj.ContentType1);
     }
 }
