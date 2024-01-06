@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "b8f1f852-549c-4515-bd24-3d03f669634d",
+                            ConcurrencyStamp = "051e85f2-bf50-4388-89b9-803d56ac1ff3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8282b0b5-0917-4db2-9aee-ba758ae88ef3",
+                            ConcurrencyStamp = "21094787-f9ef-41cc-881a-9b9267fafc69",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });

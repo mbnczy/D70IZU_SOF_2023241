@@ -16,7 +16,16 @@ namespace ShoeWebshop.Models
 		public int Price { get; set; }
 		public byte Discount { get; set; }
 
-        [NotMapped]
+		[NotMapped]
+		public int discount_Price
+		{
+			get
+			{
+				return Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((double)((double)(100 - Discount) / 100) * Price)));
+			}
+		}
+
+		[NotMapped]
         public virtual Shoe Shoe { get; set; }
         [NotMapped]
         public virtual Color Color { get; set; }
