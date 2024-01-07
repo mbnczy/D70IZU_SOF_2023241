@@ -9,7 +9,7 @@
         foreach (var item in Model)
         {
             <div class="col">
-                <div class="card" data-shoe-id="@item.ShoeID" onclick="@Url.Action("Shoe","Products", new {id = item.SpecificShoeID })">
+                <div class="card" data-shoe-id="@item.SpecificShoeID" onclick="openshoe(this)">
                     <img src="@Url.Action("GetFirstImage","Products", new {id = item.ColorID})" class="card-img-top" alt="..."></img>
                     <div class="card-body">
                         <h4 class="card-title">@item.Shoe.Brand.Name @item.Shoe.Name</h4>
@@ -25,3 +25,10 @@
         }
     }
 </div>
+<script>
+    function openshoe(card) {
+        var sshoeId = card.getAttribute("data-shoe-id");
+        url = '@Url.Action("Shoe", "Home")' + '/' + sshoeId;
+        window.location.href = url;
+    }
+</script>
