@@ -52,21 +52,21 @@
 </style>
 
 <h2>Stock:</h2>
-<div class="SpecificShoeForm">
+<!--<div class="SpecificShoeForm">
     <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
         <label id="shoeid" name="shoeid"></label>
         <label>Choose color</label>
-        <select id="color-select" name="ColorID">
+        <select id="color-select" name="ColorID">-->
             <!-- Options will be populated dynamically -->
-        </select>
+        <!--</select>
         <label>Images:</label>
-        <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">
+        <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">-->
             <!-- Images will be populated dynamically -->
-        </div>
+        <!--</div>
         <label>Select size:</label>
-        <select id="size-select" name="SizesID">
+        <select id="size-select" name="SizesID">-->
             <!-- Options will be populated dynamically -->
-        </select>
+        <!--</select>
         <label>Order type</label>
         <select name="Order_type">
             <option value="On Stock">On Stock</option>
@@ -81,10 +81,10 @@
         <label>Discount</label>
         <input type="number" name="discount" />
 
-        <input type="hidden" name="shoeid" id="shoeidinput" />
+        <input type="hidden" name="shoeid" id="shoeidinput" />-->
         <!--<input type="hidden" name="colorid" id="colorid" />-->
 
-        </form>
+        <!--</form>-->
 <div class="container mt-4">
     <h2 class="display-4 text-success">Stock</h2>
 
@@ -92,27 +92,34 @@
         <div class="col">
             <div class="SpecificShoeForm">
                 <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+                    <label id="shoeid" name="shoeid"></label>
+                    <input type="hidden" name="shoeid" id="shoeidinput" />
                     <div class="mb-3">
                         <label for="color-select" class="form-label text-success">Choose color</label>
-                        <select id="color-select" name="ColorID" class="form-select">
-                           
+                        <select id="color-select" name="ColorID">
+                            <!-- Options will be populated dynamically -->
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label text-success">Images:</label>
                         <div class="row row-cols-1 row-cols-md-2 g-4" id="image-container">
-                            
+
                         </div>
                     </div>
 
+                    <label>Select size:</label>
+                    <select id="size-select" name="SizesID">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
                     <div class="mb-3">
                         <label for="order-type" class="form-label text-success">Order type</label>
-                        <select name="order_type" id="order-type" class="form-select">
-                            <option value="">On Stock</option>
-                            <option value="">Out of Stock</option>
-                            <option value="">Available</option>
-                            <option value="">PreOrder</option>
+                        <select name="Order_type" id="order-type" class="form-select">
+                            <option value="On Stock">On Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                            <option value="Available">Available</option>
+                            <option value="PreOrder">PreOrder</option>
                         </select>
                     </div>
 
