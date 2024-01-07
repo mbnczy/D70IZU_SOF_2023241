@@ -219,10 +219,30 @@ public class HomeController : Controller
         ;
         return View(sshoes);
     }
+    [HttpGet]
     public IActionResult Shoe(string id)
     {
         SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
         return View(sshoe);   
+    }
+    public IActionResult BuyShoe(string id)
+    {
+        SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
+        
+        if (sshoe.Quantity_in_stock>0)
+        {
+            _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id).Quantity_in_stock -= 1;
+            _db.SaveChanges();
+            var q = sshoe.Quantity_in_stock;
+            ;
+            return RedirectToAction(nameof(Index));
+        }
+        else
+        {
+            ;
+            sshoe.Order_type = "Out of Stock";
+            return RedirectToAction(nameof(Shoe));
+        }
     }
     public IActionResult Privacy()
     {

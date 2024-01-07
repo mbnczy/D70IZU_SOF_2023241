@@ -16,7 +16,11 @@
     <h6 style="color:gray;text-decoration:line-through">@Model.Price Ft <label style="color: red">    -@Model.Discount%</label></h6>
 }
 <h6>@Model.discount_Price Ft</h6>
-
+<label>On Stock: @Model.Quantity_in_stock piece</label>
+<input type="hidden" id="sshoeid" name="@Model.SpecificShoeID">
+<form>
+    <input type="button" value="Buy" class="btn btn-success" onclick="buyClicked()"/>
+</form>
 <script>
         window.onload= function() {
             var div = document.getElementById("image-container");
@@ -71,4 +75,9 @@
                 });
             });
         }
+    function buyClicked() {
+        url = '@Url.Action("BuyShoe", "Home")'+'/' + document.getElementById('sshoeid').name;
+        console.log(url);
+        window.location.href = url;
+    }
 </script>
