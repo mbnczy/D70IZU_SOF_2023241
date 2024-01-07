@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Reflection;
 using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -207,7 +208,11 @@ public class HomeController : Controller
 
         return View(sshoes);
     }
-
+    public IActionResult Shoe(string id)
+    {
+        SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
+        return View(sshoe);   
+    }
     public IActionResult Privacy()
     {
         return View();
