@@ -204,7 +204,18 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var sshoes = _db.Specific_shoe_details.ToList();
-        _db.SaveChanges();
+
+        return View(sshoes);
+    }
+    public IActionResult Mens()
+    {
+        var sshoes = _db.Specific_shoe_details.ToList().Where(x=>(x.Shoe.Sex).ToString().Equals("Male"));
+
+        return View(sshoes);
+    }
+    public IActionResult Womens()
+    {
+        var sshoes = _db.Specific_shoe_details.ToList().Where(x=>(x.Shoe.Sex).ToString().Equals("Female"));
 
         return View(sshoes);
     }
