@@ -37,6 +37,10 @@ builder.Services.AddAuthentication()
     });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IShoeRepository, ShoeRepository>();
+builder.Services.AddTransient<ISpecificShoeRepository, SpecificShoeRepository>();
+builder.Services.AddTransient<IColorRepository, ColorRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddControllersWithViews();
 

@@ -21,13 +21,30 @@ public class HomeController : Controller
     private readonly UserManager<SiteUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _db;
+    private readonly IShoeRepository _shoerep;
+    private readonly ISpecificShoeRepository _specificshoerep;
+    private readonly IColorRepository _colorrep;
+    private readonly ICategoryRepository _categoryrep;
 
-    public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext db)
+
+    public HomeController(
+        ILogger<HomeController> logger,
+        UserManager<SiteUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext db,
+        IShoeRepository shoerepository,
+        ISpecificShoeRepository specificshoerepository,
+        IColorRepository colorrepository,
+        ICategoryRepository categoryrepository)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
         _db = db;
+        _shoerep = shoerepository;
+        _specificshoerep = specificshoerepository;
+        _colorrep= colorrepository;
+        _categoryrep = categoryrepository;
     }
 
     public async Task<IActionResult> DelegateAdmin()
@@ -75,9 +92,9 @@ public class HomeController : Controller
     public IActionResult ProductManagement()
     {
         dynamic dmodel = new ExpandoObject();
-        dmodel.Shoes = _db.Shoes.ToList();
-        dmodel.Colors = _db.Colors.ToList();
-        dmodel.Categories = _db.Categories.ToList();
+        dmodel.Shoes = _shoerep.ReadAll();
+        dmodel.Colors = _colorrep.ReadAll();
+        dmodel.Categories = _categoryrep.ReadAll();
         ;
         //dmodel.Colors = _db.Colors;
         return View(dmodel);
@@ -86,9 +103,7 @@ public class HomeController : Controller
     public IActionResult ProductManagement(SpecificShoe sshoe)
     {
         sshoe.SpecificShoeID = Guid.NewGuid().ToString();
-        ;
-        _db.Specific_shoe_details.Add(sshoe);
-        _db.SaveChanges();
+        _specificshoerep.Create(sshoe);
         return RedirectToAction(nameof(ProductManagement));
     }
     [HttpGet]
