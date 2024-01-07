@@ -1,79 +1,74 @@
 ﻿@model SpecificShoe
 
 
-<h3>@Model.Shoe.Name</h3>
-<h5>@Model.Shoe.Brand.Name</h5>
 
+<img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" /><h7>@Model.Shoe.Brand.Name</h7>
+<h3>@Model.Shoe.Name</h3>
+
+<label id="colorlabel">@Model.ColorID</label>
+<div class="row row-cols-1 row-cols-md-8 g-4" id="image-container" style="width:200px">
+    <!-- Images will be populated dynamically -->
+</div>
+<label>@Model.Size.Value</label>
+<p>@Model.Shoe.Description</p>
+@if (Model.Discount.ToString() != "0")
+{
+    <h6 style="color:gray;text-decoration:line-through">@Model.Price Ft <label style="color: red">    -@Model.Discount%</label></h6>
+}
+<h6>@Model.discount_Price Ft</h6>
 
 <script>
-    function populateColorSelect(card) {
-        var shoeId = card.getAttribute("data-shoe-id");
-        var colorSelect = document.getElementById("color-select");
-        //var images = document.getElementById("divimages");
+        window.onload= function() {
+            var div = document.getElementById("image-container");
+            var selectedOptionId = document.getElementById('colorlabel').textContent;
+            console.log("Selected Option ID:", selectedOptionId);
+            div.innerHTML = '';
+            input_colorid = selectedOptionId;
+            getImageCountAjax(selectedOptionId)
+                .then(function (count) {
+                    let indexer = 1;
+                    console.log('Received Image Count:', count);
+                    while (indexer < count) {
+                        var div_col = document.createElement('div');
+                        div_col.className = "col";
+                        var div_card = document.createElement('div');
+                        div_col.className = "card";
 
-        // Make an AJAX request to retrieve colors for the selected shoe ID
-        $.ajax({
-            url: '/Home/GetColorsById', // Replace with the actual URL of your controller action
-            type: 'GET',
-            data: { id: shoeId },
-            dataType: 'json',
-            success: function (colors) {
-                // Clear existing options
-                colorSelect.innerHTML = '';
-                console.log(colors)
+                        var img = document.createElement('img');
 
-                // Populate the select options with colors
-                colors.forEach(function (color) {
-                    console.log(color)
-                    var option = document.createElement('option');
-                    option.value = color.colorID;
-                    option.textContent = color.name;
-                    colorSelect.appendChild(option);
+                        var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
+                        url = url.replace("PLACEHOLDER_ID", selectedOptionId)
+                            .replace("PLACEHOLDER_INDEX", indexer.toString());
+                        console.log(url);
+                        img.src = url;
+                        img.className = "card-img-top";
+
+
+                        if (img.src != null) {
+                            div_card.appendChild(img);
+                            div_col.appendChild(div_card);
+                            div.appendChild(div_col);
+                        }
+
+                        indexer++;
+                    }
                 });
 
-                document.getElementById("shoeidinput").value = shoeId;
+        };
 
-                GetImagesFromColor();
-            },
-            error: function () {
-                console.error('Failed to retrieve color options.');
-            }
-        });
-    }
-
-    function GetImagesFromColor() {
-        var selectedOptionId = colorSelect.value;
-        console.log("Selected Option ID:", selectedOptionId);
-        div.innerHTML = '';
-        input_colorid = selectedOptionId;
-        getImageCountAjax(selectedOptionId)
-            .then(function (count) {
-                let indexer = 1;
-                console.log('Received Image Count:', count);
-                while (indexer < count) {
-                    var div_col = document.createElement('div');
-                    div_col.className = "col";
-                    var div_card = document.createElement('div');
-                    div_col.className = "card";
-
-                    var img = document.createElement('img');
-
-                    var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
-                    url = url.replace("PLACEHOLDER_ID", selectedOptionId)
-                        .replace("PLACEHOLDER_INDEX", indexer.toString());
-                    console.log(url);
-                    img.src = url;
-                    img.className = "card-img-top";
-
-
-                    if (img.src != null) {
-                        div_card.appendChild(img);
-                        div_col.appendChild(div_card);
-                        div.appendChild(div_col);
+        function getImageCountAjax(colorid) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: '/Home/GetImageCount/' + colorid,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (count) {
+                        resolve(count);
+                    },
+                    error: function (error) {
+                        reject(error)
                     }
-
-                    indexer++;
-                }
+                });
             });
-    }
+        }
 </script>
