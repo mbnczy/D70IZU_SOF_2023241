@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Reflection;
 using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -74,9 +75,10 @@ public class HomeController : Controller
     public IActionResult ProductManagement()
     {
         dynamic dmodel = new ExpandoObject();
-        dmodel.Shoes = _db.Shoes;
-        dmodel.Colors = _db.Colors;
-        //dmodel.Categories = _db.Categories;
+        dmodel.Shoes = _db.Shoes.ToList();
+        dmodel.Colors = _db.Colors.ToList();
+        dmodel.Categories = _db.Categories.ToList();
+        ;
         //dmodel.Colors = _db.Colors;
         return View(dmodel);
     }
@@ -84,12 +86,19 @@ public class HomeController : Controller
     public IActionResult ProductManagement(SpecificShoe sshoe)
     {
         sshoe.SpecificShoeID = Guid.NewGuid().ToString();
-        _db.Specific_shoe_details.Add(sshoe);
         ;
+        _db.Specific_shoe_details.Add(sshoe);
         _db.SaveChanges();
         return RedirectToAction(nameof(ProductManagement));
     }
+    [HttpGet]
+    public IActionResult GetSizes()
+    {
+        var sizes = _db.Sizes.ToList();
+        var jsonsizes = Json(sizes);
 
+        return jsonsizes;
+    }
     //[Authorize(Roles = "Admin,Staff")]
     //[HttpGet]
     //public IActionResult PM_AddShoe()
@@ -194,9 +203,16 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
-    }
+        var sshoes = _db.Specific_shoe_details.ToList();
+        _db.SaveChanges();
 
+        return View(sshoes);
+    }
+    public IActionResult Shoe(string id)
+    {
+        SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
+        return View(sshoe);   
+    }
     public IActionResult Privacy()
     {
         return View();

@@ -1,4 +1,5 @@
-﻿
+@model IEnumerable<Brand>
+
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarNav"
@@ -51,5 +52,24 @@
             </form>
         </div>
     </div>
+</div>
+
+<h2>Existing Brands</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <table>
+    @{
+        foreach (var item in Model)
+        {
+            <tr>
+                <td><img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img></td>
+                <td>@item.Name</td>
+                <td>@item.Country_of_origin</td>
+                <td>@item.Founded_year</td>
+                <td><a href="/Products/removebrand?name=@item.Name">remove</a></td>
+            </tr>
+        }
+    }
+    </table>
 </div>
 

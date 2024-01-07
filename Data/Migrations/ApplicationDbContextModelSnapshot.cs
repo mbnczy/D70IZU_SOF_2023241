@@ -46,14 +46,14 @@ namespace ShoeWebshop.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "cea95106-316d-4ab1-9a8b-8a85660c3284",
+                            ConcurrencyStamp = "051e85f2-bf50-4388-89b9-803d56ac1ff3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "472ab1ca-b951-4797-b2d4-2beada750bc0",
+                            ConcurrencyStamp = "21094787-f9ef-41cc-881a-9b9267fafc69",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -284,8 +284,8 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryID = "ff3be41c-72a2-42c4-aa81-cd9acfc4494a",
-                            Description = "expensive",
+                            CategoryID = "1",
+                            Description = "expensive stuff",
                             Name = "Sneaker"
                         });
                 });
@@ -450,6 +450,62 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("SizeID");
 
                     b.ToTable("Sizes");
+
+                    b.HasData(
+                        new
+                        {
+                            SizeID = "1",
+                            Details = "",
+                            Value = "UK - 6"
+                        },
+                        new
+                        {
+                            SizeID = "2",
+                            Details = "",
+                            Value = "UK - 6.5"
+                        },
+                        new
+                        {
+                            SizeID = "3",
+                            Details = "",
+                            Value = "UK - 7"
+                        },
+                        new
+                        {
+                            SizeID = "4",
+                            Details = "",
+                            Value = "UK - 7.5"
+                        },
+                        new
+                        {
+                            SizeID = "5",
+                            Details = "",
+                            Value = "UK - 8"
+                        },
+                        new
+                        {
+                            SizeID = "6",
+                            Details = "",
+                            Value = "UK - 8.5"
+                        },
+                        new
+                        {
+                            SizeID = "7",
+                            Details = "",
+                            Value = "UK - 9"
+                        },
+                        new
+                        {
+                            SizeID = "8",
+                            Details = "",
+                            Value = "UK - 9.5"
+                        },
+                        new
+                        {
+                            SizeID = "9",
+                            Details = "",
+                            Value = "UK - 10"
+                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.SpecificShoe", b =>

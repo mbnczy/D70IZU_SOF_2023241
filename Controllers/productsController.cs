@@ -97,6 +97,7 @@ public class ProductsController : Controller
             }
         }
         _db.Shoes.Add(svm.Shoe);
+        ;
         _db.SaveChanges();
         return RedirectToAction(nameof(addshoe));
     }
@@ -104,7 +105,8 @@ public class ProductsController : Controller
     [HttpGet]
     public IActionResult addbrand()
     {
-        return View();
+        List<Brand> brands = _db.Brands.ToList();
+        return View(brands);
     }
     [HttpPost]
     public IActionResult addbrand(Brand brand, IFormFile logodata)
@@ -119,6 +121,15 @@ public class ProductsController : Controller
         }
         _db.Brands.Add(brand);
         _db.SaveChanges();
+        return RedirectToAction(nameof(addbrand));
+    }
+    [HttpGet]
+    public IActionResult Removebrand(string name)
+    { 
+        var brand = _db.Brands.ToList().FirstOrDefault(x => x.Name == name);
+        _db.Brands.Remove(brand);
+        _db.SaveChanges();
+
         return RedirectToAction(nameof(addbrand));
     }
     /*
@@ -142,6 +153,11 @@ public class ProductsController : Controller
     {
         Brand brand = _db.Brands.FirstOrDefault(x => x.BrandID == id);
         return new FileContentResult(brand.Logo, brand.ContentType);
+    }
+    public IActionResult GetFirstImage(string id)
+    {
+        Color colorobj = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        return new FileContentResult(colorobj.Image1, colorobj.ContentType1);
     }
 }
 

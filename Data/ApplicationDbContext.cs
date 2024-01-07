@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShoeWebshop.Models;
+using System.Net.NetworkInformation;
 
 namespace ShoeWebshop.Data;
 
@@ -28,36 +29,27 @@ public class ApplicationDbContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<Size>().HasData(
+            new Size() { SizeID = "1", Value = "UK - 6", Details = "" },
+            new Size() { SizeID = "2", Value = "UK - 6.5", Details = "" },
+            new Size() { SizeID = "3", Value = "UK - 7", Details = "" },
+            new Size() { SizeID = "4", Value = "UK - 7.5", Details = "" },
+            new Size() { SizeID = "5", Value = "UK - 8", Details = "" },
+            new Size() { SizeID = "6", Value = "UK - 8.5", Details = "" },
+            new Size() { SizeID = "7", Value = "UK - 9", Details = "" },
+            new Size() { SizeID = "8", Value = "UK - 9.5", Details = "" },
+            new Size() { SizeID = "9", Value = "UK - 10", Details = "" }
+        );
+
         builder.Entity<IdentityRole>().HasData(
-            new IdentityRole{ Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-            new IdentityRole{ Id = "2", Name = "Staff", NormalizedName = "STAFF" }
+            new IdentityRole(){ Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+            new IdentityRole(){ Id = "2", Name = "Staff", NormalizedName = "STAFF" }
         );
 
         builder.Entity<Category>().HasData(
-                new Category()
-                {
-                    CategoryID = Guid.NewGuid().ToString(),
-                    Name = "Sneaker",
-                    Description = "expensive"
-                }
-                );
+            new Category(){ CategoryID="1", Name="Sneaker",Description="expensive stuff"}
+        );
 
-        //builder.Entity<Brand>().HasData(
-        //        new Brand()
-        //        {
-        //            BrandID = Guid.NewGuid().ToString(),
-        //            Name = "Adidas",
-        //            Country_of_origin = "Germany",
-        //            Founded_year = new DateTime(1949,8,18)
-        //        },
-        //        new Brand()
-        //        {
-        //            BrandID = Guid.NewGuid().ToString(),
-        //            Name = "Nike",
-        //            Country_of_origin = "USA",
-        //            Founded_year = new DateTime(1964, 1, 25)
-        //        }
-        //    );
 
         builder.Entity<Color>()
             .HasOne(x => x.Shoe)
