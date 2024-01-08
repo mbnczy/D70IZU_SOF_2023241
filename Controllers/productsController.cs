@@ -168,6 +168,16 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(ProductManagement));
     }
     */
+    //public IActionResult GetLogo(string id)
+    //{
+    //    Brand brand = _db.Brands.FirstOrDefault(x => x.BrandID == id);
+    //    return new FileContentResult(brand.Logo, brand.ContentType);
+    //}
+    //public IActionResult GetFirstImage(string id)
+    //{
+    //    Color colorobj = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+    //    return new FileContentResult(colorobj.Image1, colorobj.ContentType1);
+    //}
     public IActionResult GetLogo(string id)
     {
         Brand brand = _brandrep.Read(id);
