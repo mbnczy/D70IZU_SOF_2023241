@@ -24,7 +24,13 @@
 </nav>
 
 <style>
-    /* Add a CSS style to set a fixed height for the cards */
+  
+
+    #image-container img {
+        width: 100%; 
+        height: auto; 
+        object-fit: cover; 
+    }
     .card {
         border: 1px solid solid groove;
         width: 250px;
@@ -32,7 +38,22 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    }
+
+        .card:hover {
+            transform: scale(1.05); /* Kicsit nagyítás */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Árnyék hozzáadása */
+            background-color: #f8f9fa; /* Háttérszín átmenet */
+        }
+
+    .card-img-top {
+        transition: transform 0.3s ease; /* Kép méretváltozás átmenet */
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1); /* Kicsit nagyítás a képen a hover állapotban */
     }
 
         /* Ensure images within cards scale proportionally and fit within the card height */
@@ -51,40 +72,7 @@
     }
 </style>
 
-<h2>Stock:</h2>
-<!--<div class="SpecificShoeForm">
-    <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
-        <label id="shoeid" name="shoeid"></label>
-        <label>Choose color</label>
-        <select id="color-select" name="ColorID">-->
-            <!-- Options will be populated dynamically -->
-        <!--</select>
-        <label>Images:</label>
-        <div class="row row-cols-1 row-cols-md-8 g-4" id="image-container">-->
-            <!-- Images will be populated dynamically -->
-        <!--</div>
-        <label>Select size:</label>
-        <select id="size-select" name="SizesID">-->
-            <!-- Options will be populated dynamically -->
-        <!--</select>
-        <label>Order type</label>
-        <select name="Order_type">
-            <option value="On Stock">On Stock</option>
-            <option value="Out of Stock">Out of Stock</option>
-            <option value="Available">Available</option>
-            <option value="PreOrder">PreOrder</option>
-        </select>
-        <label>Quantity on stock:</label>
-        <input type="number" name="quantity_in_stock" />
-        <label>Price</label>
-        <input type="number" name="price" />
-        <label>Discount</label>
-        <input type="number" name="discount" />
 
-        <input type="hidden" name="shoeid" id="shoeidinput" />-->
-        <!--<input type="hidden" name="colorid" id="colorid" />-->
-
-        <!--</form>-->
 <div class="container mt-4">
     <h2 class="display-4 text-success">Stock</h2>
 
@@ -96,7 +84,7 @@
                     <input type="hidden" name="shoeid" id="shoeidinput" />
                     <div class="mb-3">
                         <label for="color-select" class="form-label text-success">Choose color</label>
-                        <select id="color-select" name="ColorID">
+                        <select id="color-select" name="ColorID" class="form-select">
                             <!-- Options will be populated dynamically -->
                         </select>
                     </div>
@@ -109,7 +97,7 @@
                     </div>
 
                     <label>Select size:</label>
-                    <select id="size-select" name="SizesID">
+                    <select id="size-select" name="SizesID" class="form-select">
                         <!-- Options will be populated dynamically -->
                     </select>
 
