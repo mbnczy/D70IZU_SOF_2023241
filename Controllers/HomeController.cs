@@ -25,6 +25,7 @@ public class HomeController : Controller
     private readonly ISpecificShoeRepository _specificshoerep;
     private readonly IColorRepository _colorrep;
     private readonly ICategoryRepository _categoryrep;
+    private readonly ISizeRepository _sizerep;
 
 
     public HomeController(
@@ -35,16 +36,18 @@ public class HomeController : Controller
         IShoeRepository shoerepository,
         ISpecificShoeRepository specificshoerepository,
         IColorRepository colorrepository,
-        ICategoryRepository categoryrepository)
+        ICategoryRepository categoryrepository,
+        ISizeRepository sizerepository)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
-        _db = db;
+        //_db = db;
         _shoerep = shoerepository;
         _specificshoerep = specificshoerepository;
         _colorrep= colorrepository;
         _categoryrep = categoryrepository;
+        _sizerep = sizerepository;
     }
 
     public async Task<IActionResult> DelegateAdmin()
@@ -109,7 +112,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult GetSizes()
     {
-        var sizes = _db.Sizes.ToList();
+        var sizes = _sizerep.ReadAll();
         var jsonsizes = Json(sizes);
 
         return jsonsizes;
@@ -218,44 +221,37 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var sshoes = _db.Specific_shoe_details.ToList();
+        var sshoes = _specificshoerep.ReadAll();
         ;
         return View(sshoes);
     }
     public IActionResult Mens()
     {
-        var sshoes = _db.Specific_shoe_details.ToList().Where(x=>(x.Shoe.Sex).ToString().Equals("Male"));
+        var sshoes = _specificshoerep.ReadMens();
         ;
         return View(sshoes);
     }
     public IActionResult Womens()
     {
-        var sshoes = _db.Specific_shoe_details.ToList().Where(x=>(x.Shoe.Sex).ToString().Equals("Female"));
+        var sshoes = _specificshoerep.ReadWomens();
         ;
         return View(sshoes);
     }
     [HttpGet]
     public IActionResult Shoe(string id)
     {
-        SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
+        SpecificShoe? sshoe = _specificshoerep.Read(id);
         return View(sshoe);   
     }
     public IActionResult BuyShoe(string id)
     {
-        SpecificShoe sshoe = _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
-        
-        if (sshoe.Quantity_in_stock>0)
+        bool success = _specificshoerep.BuyShoe(id);
+        if (success)
         {
-            _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id).Quantity_in_stock -= 1;
-            _db.SaveChanges();
-            var q = sshoe.Quantity_in_stock;
-            ;
             return RedirectToAction(nameof(Index));
         }
         else
         {
-            ;
-            sshoe.Order_type = "Out of Stock";
             return RedirectToAction(nameof(Shoe));
         }
     }
@@ -272,7 +268,8 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult GetColorsById(string id)
     {
-        var colors = _db.Colors.Where(c => c.ShoeID == id).ToList();
+        //var colors = _db.Colors.Where(c => c.ShoeID == id).ToList();
+        var colors = _colorrep.ReadSpecColors(id);
         var jsoncolors = Json(colors);
         
         return jsoncolors;
@@ -295,7 +292,7 @@ public class HomeController : Controller
         //return new FileContentResult(colorx.Image1, colorx.ContentType1);
         // Retrieve the Color object from the database
 
-        Color color = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        Color color = _colorrep.Read(id);
         if (color != null)
         {
             // Create a list to store the FileContentResult objects
@@ -330,7 +327,7 @@ public class HomeController : Controller
     public IActionResult GetImage(string id, string index)
     {
         int i = Convert.ToInt32(index);
-        Color color = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        Color color = _colorrep.Read(id);
 
         string? contenttype = (string)typeof(Color).GetProperty($"ContentType{i}").GetValue(color);
         if (contenttype != "")
@@ -345,7 +342,7 @@ public class HomeController : Controller
     }
     public IActionResult GetImageCount(string id)
     {
-        Color color = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        Color color = _colorrep.Read(id);
 
         int count = 1;
         while (count < 5 && (string)typeof(Color).GetProperty($"ContentType{count}").GetValue(color)!="")
