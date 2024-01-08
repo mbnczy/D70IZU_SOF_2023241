@@ -1,7 +1,21 @@
 ﻿@model dynamic
 
 
+<style>
+/*     .card:hover {
+        transform: scale(1.05); /* Kicsit nagyítás */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Árnyék hozzáadása */
+        background-color: #f8f9fa; /* Háttérszín átmenet */
+    } */
 
+    .card-img-top {
+        transition: transform 0.3s ease; /* Kép méretváltozás átmenet */
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1); /* Kicsit nagyítás a képen a hover állapotban */
+    }
+</style>
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
     <div class="container">

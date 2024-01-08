@@ -2,7 +2,7 @@
 
 
 
-<img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" /><h7>@Model.Shoe.Brand.Name</h7>
+@* <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" /><h7>@Model.Shoe.Brand.Name</h7>
 <h3>@Model.Shoe.Name</h3>
 
 <label id="colorlabel">@Model.ColorID</label>
@@ -21,6 +21,96 @@
 <form>
     <input type="button" value="Buy" class="btn btn-success" onclick="buyClicked()"/>
 </form>
+ *@
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    #image-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    img {
+        max-width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+        img:hover {
+            transform: scale(5); 
+        }
+
+    #colorlabel {
+        font-weight: bold;
+        color: #333;
+    }
+
+    #description {
+        margin-top: 20px;
+    }
+
+    #price {
+        margin-top: 10px;
+        color: #555;
+    }
+
+    #discount-price {
+        color: red;
+    }
+
+    #stock-label {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    #buy-button {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" alt="Brand Logo" />
+            <h7 hidden>@Model.Shoe.Brand.Name</h7>
+            <h3>@Model.Shoe.Name</h3>
+            <label hidden id="colorlabel">@Model.ColorID</label>
+            <div class="row row-cols-1 row-cols-md-4 g-4" id="image-container">
+ 
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <label>Size: @Model.Size.Value</label>
+            <p id="description">@Model.Shoe.Description</p>
+
+            @if (Model.Discount.ToString() != "0")
+            {
+                <h6 id="price" style="text-decoration: line-through; color: gray;">@Model.Price Ft <span id="discount-price">-@Model.Discount%</span></h6>
+            }
+            <h6 id="price">@Model.discount_Price Ft</h6>
+
+            <label id="stock-label">On Stock: @Model.Quantity_in_stock pieces</label>
+            <input type="hidden" id="sshoeid" name="@Model.SpecificShoeID">
+            <form id="buy-form">
+                <input type="button" value="Buy" class="btn btn-success" id="buy-button" onclick="buyClicked()" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <script>
         window.onload= function() {
             var div = document.getElementById("image-container");

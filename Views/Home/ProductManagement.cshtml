@@ -24,7 +24,13 @@
 </nav>
 
 <style>
-    /* Add a CSS style to set a fixed height for the cards */
+  
+
+    #image-container img {
+        width: 100%; 
+        height: auto; 
+        object-fit: cover; 
+    }
     .card {
         border: 1px solid solid groove;
         width: 250px;
@@ -32,7 +38,22 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    }
+
+        .card:hover {
+            transform: scale(1.05); /* Kicsit nagyítás */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Árnyék hozzáadása */
+            background-color: #f8f9fa; /* Háttérszín átmenet */
+        }
+
+    .card-img-top {
+        transition: transform 0.3s ease; /* Kép méretváltozás átmenet */
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1); /* Kicsit nagyítás a képen a hover állapotban */
     }
 
         /* Ensure images within cards scale proportionally and fit within the card height */
@@ -63,7 +84,7 @@
                     <input type="hidden" name="shoeid" id="shoeidinput" />
                     <div class="mb-3">
                         <label for="color-select" class="form-label text-success">Choose color</label>
-                        <select id="color-select" name="ColorID">
+                        <select id="color-select" name="ColorID" class="form-select">
                             <!-- Options will be populated dynamically -->
                         </select>
                     </div>
@@ -76,7 +97,7 @@
                     </div>
 
                     <label>Select size:</label>
-                    <select id="size-select" name="SizesID">
+                    <select id="size-select" name="SizesID" class="form-select">
                         <!-- Options will be populated dynamically -->
                     </select>
 
