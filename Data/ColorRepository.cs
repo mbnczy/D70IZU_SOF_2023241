@@ -23,6 +23,11 @@ namespace ShoeWebshop.Data
         {
             return _db.Colors.FirstOrDefault(x => x.ColorID == id);
         }
+        public void Create(Color new_color)
+        {
+            _db.Colors.Add(new_color);
+            _db.SaveChanges();
+        }
     }
 
     public interface IColorRepository
@@ -30,6 +35,7 @@ namespace ShoeWebshop.Data
         IEnumerable<Color>? ReadAll();
         IEnumerable<Color>? ReadSpecColors(string id);
         Color? Read(string id);
+        void Create(Color new_color);
     }
 }
 

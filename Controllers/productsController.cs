@@ -18,23 +18,44 @@ public class ProductsController : Controller
     private readonly UserManager<SiteUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _db;
+    private readonly IShoeRepository _shoerep;
+    private readonly ISpecificShoeRepository _specificshoerep;
+    private readonly IColorRepository _colorrep;
+    private readonly ICategoryRepository _categoryrep;
+    private readonly ISizeRepository _sizerep;
+    private readonly IBrandRepository _brandrep;
 
-    public ProductsController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext db)
+    public ProductsController(
+        ILogger<HomeController> logger,
+        UserManager<SiteUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IShoeRepository shoerepository,
+        ISpecificShoeRepository specificshoerepository,
+        IColorRepository colorrepository,
+        ICategoryRepository categoryrepository,
+        ISizeRepository sizerepository,
+        IBrandRepository brandrepository)
     {
         _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
-        _db = db;
+        //_db = db;
+        _shoerep = shoerepository;
+        _specificshoerep = specificshoerepository;
+        _colorrep = colorrepository;
+        _categoryrep = categoryrepository;
+        _sizerep = sizerepository;
+        _brandrep = brandrepository;
     }
     [Authorize(Roles = "Admin,Staff")]
     [HttpGet]
     public IActionResult ProductManagement()
     {
         dynamic dmodel = new ExpandoObject();
-        dmodel.Brands = _db.Brands;
-        dmodel.Categories = _db.Categories;
-        dmodel.Colors = _db.Colors;
-        dmodel.Shoes = _db.Shoes;
+        dmodel.Brands = _brandrep.ReadAll();
+        dmodel.Categories = _categoryrep.ReadAll();
+        dmodel.Colors = _colorrep.ReadAll();
+        dmodel.Shoes = _shoerep.ReadAll();
         return View(dmodel);
     }
     //[HttpPost]
@@ -51,10 +72,10 @@ public class ProductsController : Controller
     public IActionResult addshoe()
     {
         dynamic dmodel = new ExpandoObject();
-        dmodel.Brands = _db.Brands;
-        dmodel.Categories = _db.Categories;
-        dmodel.Colors = _db.Colors;
-        dmodel.Shoes = _db.Shoes;
+        dmodel.Brands = _brandrep.ReadAll();
+        dmodel.Categories = _categoryrep.ReadAll();
+        dmodel.Colors = _colorrep.ReadAll();
+        dmodel.Shoes = _shoerep.ReadAll();
         return View(dmodel);
     }
 
@@ -92,20 +113,19 @@ public class ProductsController : Controller
                             Color.GetType().GetProperty("ContentType" + (i + 1)).SetValue(Color, "");
                         }
                     }
-                    _db.Colors.Add(Color);
+                    _colorrep.Create(Color);
                 }
             }
         }
-        _db.Shoes.Add(svm.Shoe);
-        ;
-        _db.SaveChanges();
+        _shoerep.Create(svm.Shoe);
+
         return RedirectToAction(nameof(addshoe));
     }
 
     [HttpGet]
     public IActionResult addbrand()
     {
-        List<Brand> brands = _db.Brands.ToList();
+        List<Brand> brands = _brandrep.ReadAll().ToList();
         return View(brands);
     }
     [HttpPost]
@@ -119,16 +139,15 @@ public class ProductsController : Controller
             brand.Logo = buffer;
             brand.ContentType = logodata.ContentType;
         }
-        _db.Brands.Add(brand);
-        _db.SaveChanges();
+        _brandrep.Create(brand);
         return RedirectToAction(nameof(addbrand));
     }
     [HttpGet]
     public IActionResult Removebrand(string name)
-    { 
-        var brand = _db.Brands.ToList().FirstOrDefault(x => x.Name == name);
-        _db.Brands.Remove(brand);
-        _db.SaveChanges();
+    {
+        var brand = _brandrep.ReadByName(name);
+        _brandrep.Delete(brand);
+
 
         return RedirectToAction(nameof(addbrand));
     }
@@ -151,12 +170,13 @@ public class ProductsController : Controller
     */
     public IActionResult GetLogo(string id)
     {
-        Brand brand = _db.Brands.FirstOrDefault(x => x.BrandID == id);
+        Brand brand = _brandrep.Read(id);
         return new FileContentResult(brand.Logo, brand.ContentType);
     }
     public IActionResult GetFirstImage(string id)
     {
-        Color colorobj = _db.Colors.FirstOrDefault(x => x.ColorID == id);
+        Color colorobj = _colorrep.Read(id);//_db.Colors.ToList().FirstOrDefault(x => x.ShoeID == id);
+        ;//_colorrep.Read(id);
         return new FileContentResult(colorobj.Image1, colorobj.ContentType1);
     }
 }
