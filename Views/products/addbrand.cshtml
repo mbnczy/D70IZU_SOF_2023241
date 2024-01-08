@@ -1,5 +1,6 @@
 @model IEnumerable<Brand>
 
+
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarNav"
@@ -54,22 +55,43 @@
     </div>
 </div>
 
-<h2>Existing Brands</h2>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+@* <h3 class="text-center display-4 text-success">Existing Brands</h3> *@
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    <table>
-    @{
-        foreach (var item in Model)
-        {
-            <tr>
-                <td><img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" class="card-img-top" alt="..."></img></td>
-                <td>@item.Name</td>
-                <td>@item.Country_of_origin</td>
-                <td>@item.Founded_year</td>
-                <td><a href="/Products/removebrand?name=@item.Name">remove</a></td>
-            </tr>
-        }
-    }
-    </table>
+<div class="row justify-content-center">
+    <div class="col-10">
+        <table class="table table-bordered table-hover rounded-3 overflow-hidden mx-auto">
+            <thead class="table-success text-center">
+                <tr>
+                    <th style="height: 30px;">Logo</th>
+                    <th style="height: 30px;">Name</th>
+                    <th style="height: 30px;">Country of Origin</th>
+                    <th style="height: 30px;">Founded Year</th>
+                    <th style="height: 30px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="height: 5px;" class="text-center align-middle"><img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" style="height: 50px" class="img-fluid" alt="Brand Logo"></td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Name</td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Country_of_origin</td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Founded_year</td>
+                            <td style="height: 40px;" class="text-center align-middle"><a href="/Products/removebrand?name=@item.Name" class="btn btn-danger">Remove</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
