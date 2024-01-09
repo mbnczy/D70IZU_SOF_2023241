@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShoeWebshop.Data;
 using ShoeWebshop.Models;
 
 namespace ShoeWebshop.Controllers
@@ -7,19 +8,19 @@ namespace ShoeWebshop.Controllers
 
     [ApiController]
 
-    [Route("[controller]")]
+    [Route("api/users")]
     public class ApiController:ControllerBase
     {
         UserManager<SiteUser> _userManager;
 
+
         public ApiController(UserManager<SiteUser> userManager)
         {
-            this._userManager = userManager;
+            _userManager = userManager;
         }
 
-
         [HttpGet]
-        public IEnumerable<SiteUser> GetUsers()
+        public IEnumerable<SiteUser>? GetUser()
         {
             return this._userManager.Users;
         }

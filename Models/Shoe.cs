@@ -1,13 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ShoeWebshop.Models
 {
 	public class Shoe
 	{
         [Key]
+
+
         public string ShoeID { get; set; }
+
         public string? CategoryID { get; set; }
         public string? BrandID { get; set; }
 
