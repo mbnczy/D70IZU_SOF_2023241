@@ -2,26 +2,7 @@
 
 
 
-@* <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" /><h7>@Model.Shoe.Brand.Name</h7>
-<h3>@Model.Shoe.Name</h3>
 
-<label id="colorlabel">@Model.ColorID</label>
-<div class="row row-cols-1 row-cols-md-8 g-4" id="image-container" style="width:200px">
-    <!-- Images will be populated dynamically -->
-</div>
-<label>@Model.Size.Value</label>
-<p>@Model.Shoe.Description</p>
-@if (Model.Discount.ToString() != "0")
-{
-    <h6 style="color:gray;text-decoration:line-through">@Model.Price Ft <label style="color: red">    -@Model.Discount%</label></h6>
-}
-<h6>@Model.discount_Price Ft</h6>
-<label>On Stock: @Model.Quantity_in_stock piece</label>
-<input type="hidden" id="sshoeid" name="@Model.SpecificShoeID">
-<form>
-    <input type="button" value="Buy" class="btn btn-success" onclick="buyClicked()"/>
-</form>
- *@
 <style>
     .container {
         margin-top: 20px;

@@ -6,9 +6,7 @@
     <title>@ViewData["Title"] - ShoeWebshop</title>
 
     <link rel="stylesheet" href="~/bootstrap/css/bootstrap.css" />
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
-@*     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ShoeWebshop.styles.css" asp-append-version="true" /> *@
+
 
     <style>
         body {
@@ -27,10 +25,10 @@
         }
 
         .btn-outline-success:hover {
-            transform: scale(1.1); }
+            transform: scale(1.16); }
 
         .btn-outline-secondary:hover {
-            transform: scale(1.1); /* Kicsit nagyítás a hover állapotban */
+            transform: scale(1.16); 
         }
     </style>
 </head>
@@ -40,15 +38,11 @@
 
 <body>
     <header>
-        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> *@
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="btn btn-lg btn-outline-success me-2" asp-area="" asp-controller="Home" asp-action="Index">ShoeWebshop</a>
-@*                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> *@
-@*                 <div class="navbar bg-body-tertiary"> *@
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="nav">
                         <li class="nav-item mt-2 m-lg-2 ">
@@ -67,14 +61,7 @@
                 </div>
             </div>
         </nav>
-@*         <nav class="navbar bg-body-tertiary">
-            <form class="container-fluid justify-content-start">
-                <a class="btn btn-outline-success me-2" asp-area="" asp-controller="Home" asp-action="Index">ShoeWebshop</a>
-                <a class="btn btn-sm btn-outline-secondary"  asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 
-            </form>
-        </nav> *@
 
     </header>
     <div class="container">
