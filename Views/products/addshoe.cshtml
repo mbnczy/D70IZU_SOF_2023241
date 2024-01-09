@@ -35,7 +35,7 @@
     </div>
 </nav>
 
-
+@Html.ValidationSummary()
 
 <h2 class="display-4 text-success">Add Shoes</h2>
 
@@ -62,7 +62,7 @@
 
     <div class="mb-3">
         <label for="shoeName" class="form-label">Name</label>
-        <input type="text" name="shoe.name" class="form-control" id="shoeName" />
+        <input type="text" name="shoe.name" class="form-control" id="shoeName" minlenght="1"/>
     </div>
 
     <div class="mb-3">
@@ -77,12 +77,12 @@
 
     <div class="mb-3">
         <label for="shoeDescription" class="form-label">Description</label>
-        <input type="text" name="shoe.description" class="form-control" id="shoeDescription" />
+        <input type="text" name="shoe.description" class="form-control" id="shoeDescription" minlenght="10"/>
     </div>
 
     <div class="mb-3">
         <label for="shoeWeight" class="form-label">Weight</label>
-        <input type="number" name="shoe.weight" class="form-control" id="shoeWeight" />
+        <input type="number" name="shoe.weight" class="form-control" id="shoeWeight" min="0"/>
     </div>
 
     <div class="mb-3">

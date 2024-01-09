@@ -1,4 +1,6 @@
-﻿<form method="post" enctype="multipart/form-data" class="photoForm">
+﻿@Html.ValidationSummary()
+
+<form method="post" enctype="multipart/form-data" class="photoForm">
     <label>Brand</label>
     <select name="BrandID">
         @foreach (var item in Model.Brands)
