@@ -14,11 +14,17 @@ namespace ShoeWebshop.Data
         {
             return _db.Shoes.ToList();
         }
+        public void Create(Shoe new_shoe)
+        {
+            _db.Shoes.Add(new_shoe);
+            _db.SaveChanges();
+        }
     }
 
     public interface IShoeRepository
     {
         IEnumerable<Shoe>? ReadAll();
+        void Create(Shoe new_shoe);
     }
 }
 
