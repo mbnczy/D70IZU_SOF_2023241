@@ -4,6 +4,17 @@
 
 
 <style>
+
+    .message {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        color: #333;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
     .container {
         margin-top: 20px;
     }
@@ -55,23 +66,25 @@
     }
 </style>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" alt="Brand Logo" />
-            <h7 hideen>@Model.Shoe.Brand.Name</h7>
-            <h3>@Model.Shoe.Name</h3>
-            <label hidden id="colorlabel">@Model.ColorID</label>
-            <div class="row row-cols-1 row-cols-md-4 g-4" id="image-container">
- 
+@if (Model.Quantity_in_stock!=0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+                <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" alt="Brand Logo" />
+                <h7 hideen>@Model.Shoe.Brand.Name</h7>
+                <h3>@Model.Shoe.Name</h3>
+                <label hidden id="colorlabel">@Model.ColorID</label>
+                <div class="row row-cols-1 row-cols-md-4 g-4" id="image-container">
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-8">
-            <label>Size: @Model.Size.Value</label>
-            <p id="description">@Model.Shoe.Description</p>
+            <div class="col-md-8">
+                <label>Size: @Model.Size.Value</label>
+                <p id="description">@Model.Shoe.Description</p>
 
-            @if (Model.Discount.ToString() != "0")
+                @if (Model.Discount.ToString() != "0")
             {
                 <h6 id="price" style="text-decoration: line-through; color: gray;">@Model.Price Ft <span id="discount-price">-@Model.Discount%</span></h6>
             }
@@ -86,6 +99,14 @@
     </div>
 </div>
 
+}
+else
+{
+<div class="message">
+    A termék nem elérhető
+</div>
+
+}
 
 
 

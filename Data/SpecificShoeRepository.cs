@@ -14,6 +14,10 @@ namespace ShoeWebshop.Data
         {
             return _db.Specific_shoe_details.ToList();
         }
+        public IEnumerable<SpecificShoe>? ReadAllOnStock()
+        {
+            return _db.Specific_shoe_details.ToList().Where(x=>x.Quantity_in_stock!=0);
+        }
         public SpecificShoe? Read(string id)
         {
             return _db.Specific_shoe_details.FirstOrDefault(t => t.SpecificShoeID == id);
@@ -53,6 +57,7 @@ namespace ShoeWebshop.Data
     public interface ISpecificShoeRepository
     {
         IEnumerable<SpecificShoe>? ReadAll();
+        IEnumerable<SpecificShoe>? ReadAllOnStock();
         IEnumerable<SpecificShoe>? ReadMens();
         IEnumerable<SpecificShoe>? ReadWomens();
         SpecificShoe? Read(string id);

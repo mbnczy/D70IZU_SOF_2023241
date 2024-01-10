@@ -11,7 +11,24 @@ namespace ShoeWebshop.Models
 		public string ShoeID { get; set; }
 		public string ColorID { get; set; }
 		public string SizesID { get; set; }
-		public string Order_type { get; set; }
+		[NotMapped]
+		private string order_type;
+
+        public string Order_type 
+		{
+			get 
+			{
+				if (this.Quantity_in_stock==0)
+				{
+					order_type = "Out of stock";
+				}
+				return order_type;
+			}
+			set 
+			{
+				this.order_type = value;
+			} 
+		}
 		public int Quantity_in_stock { get; set; }
 		public int Price { get; set; }
 		public byte Discount { get; set; }
