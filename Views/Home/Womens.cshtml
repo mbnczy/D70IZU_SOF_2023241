@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<SpecificShoe>
+<style>
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+        font-size: 60px;
+        color: #4CAF50;
+        text-align: center;
+        margin-bottom: 60px;
+        margin-top: 40px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+        height: 400px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            background-color: #f8f9fa;
+        }
+
+    .card-title {
+        transition: color 0.3s ease;
+    }
+
+    .card:hover .card-title {
+        color: #007bff;
+    }
+
+    .card-img-top {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1);
+    }
+</style>
+
+<h1>Available women shoes</h1>
+<div class="row row-cols-1 row-cols-md-5 g-4">
+    @{
+        foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card" data-shoe-id="@item.SpecificShoeID" onclick="openshoe(this)">
+                    <img src="@Url.Action("GetFirstImage","Products", new {id = item.ColorID})" class="card-img-top" alt="..."></img>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Shoe.Brand.Name @item.Shoe.Name</h4>
+                        <h8 style="color: gray">@item.Size.Value</h8>
+                        @if (item.Discount.ToString() != "0")
+                        {
+                            <h6 style="color:gray;text-decoration:line-through">@item.Price Ft <label style="color: red">    -@item.Discount%</label></h6>
+                        }
+                        <h6>@item.discount_Price Ft</h6>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    function openshoe(card) {
+        var sshoeId = card.getAttribute("data-shoe-id");
+        url = '@Url.Action("Shoe", "Home")' + '/' + sshoeId;
+        window.location.href = url;
+    }
+</script>
