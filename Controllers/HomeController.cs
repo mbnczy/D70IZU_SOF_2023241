@@ -8,7 +8,9 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using ShoeWebshop.Data;
+using ShoeWebshop.Hubs;
 using ShoeWebshop.Models;
 //using ShoeWebshop.Views.Home;
 using ShoeWebshop.Views.Products;
@@ -17,6 +19,8 @@ namespace ShoeWebshop.Controllers;
 
 public class HomeController : Controller
 {
+
+    private readonly IHubContext<EventHub> _hub;
     private readonly ILogger<HomeController> _logger;
     private readonly UserManager<SiteUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
@@ -37,7 +41,8 @@ public class HomeController : Controller
         ISpecificShoeRepository specificshoerepository,
         IColorRepository colorrepository,
         ICategoryRepository categoryrepository,
-        ISizeRepository sizerepository)
+        ISizeRepository sizerepository,
+        IHubContext<EventHub> hub)
     {
         _logger = logger;
         _userManager = userManager;
@@ -48,6 +53,7 @@ public class HomeController : Controller
         _colorrep= colorrepository;
         _categoryrep = categoryrepository;
         _sizerep = sizerepository;
+        this._hub = hub;
     }
 
     public async Task<IActionResult> DelegateAdmin()
@@ -63,6 +69,10 @@ public class HomeController : Controller
         {
             await _roleManager.CreateAsync(role);
         }
+
+        ApiController.Admins.Remove(user.Email);
+        await _hub.Clients.All.SendAsync("grantAdmin", user);
+
         await _userManager.AddToRoleAsync(user, "Admin");
         return RedirectToAction(nameof(Index));
     }
@@ -195,6 +205,10 @@ public class HomeController : Controller
     {
         var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
         await _userManager.RemoveFromRoleAsync(user, "Admin");
+
+        ApiController.Admins.Remove(user.Email);
+        await _hub.Clients.All.SendAsync("grantAdmin", user);
+
         return RedirectToAction(nameof(UserManagement));
     }
     [Authorize(Roles = "Admin")]
@@ -202,6 +216,12 @@ public class HomeController : Controller
     {
         var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
         await _userManager.AddToRoleAsync(user, "Admin");
+
+
+        ApiController.Admins.Add(user.Email);
+        await _hub.Clients.All.SendAsync("grantAdmin",user);
+        
+
         return RedirectToAction(nameof(UserManagement));
     }
     [Authorize(Roles = "Admin")]
