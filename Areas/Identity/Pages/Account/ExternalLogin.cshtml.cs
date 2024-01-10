@@ -164,7 +164,7 @@ namespace ShoeWebshop.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                //user.EmailConfirmed = true;
+                user.EmailConfirmed = true;
                 user.Created_at = DateTime.Now;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

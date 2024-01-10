@@ -3,28 +3,37 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
-<h1>Users menu</h1>
-<ul>
-@foreach (var user in Model)
-{
-    <li>
-        @user.FirstName @user.LastName
-        @if (await UserManager.IsInRoleAsync(user, "Staff"))
+
+
+<div class="mb-3">
+    <h1 class="display-4 text-success">User Management</h1>
+    <ul class="list-group">
+        @foreach (var user in Model)
         {
-            <a class="btn btn-danger" href="/Home/RemoveStaff?uid=@user.Id">Remove Staff</a>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    @user.FirstName @user.LastName
+                </div>
+                <div>
+                    @if (await UserManager.IsInRoleAsync(user, "Staff"))
+                    {
+                        <a class="btn btn-outline-danger" href="/Home/RemoveStaff?uid=@user.Id">Remove Staff</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-success" href="/Home/GrantStaff?uid=@user.Id">Grant Staff</a>
+                    }
+
+                    @if (await UserManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        <a class="btn btn-outline-danger" href="/Home/RemoveAdmin?uid=@user.Id">Remove Admin</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-success" href="/Home/GrantAdmin?uid=@user.Id">Grant Admin</a>
+                    }
+                </div>
+            </li>
         }
-        else
-        {
-            <a class="btn btn-success" href="/Home/GrantStaff?uid=@user.Id">Grant Staff</a>
-        }
-        @if (await UserManager.IsInRoleAsync(user, "Admin"))
-        {
-            <a class="btn btn-danger" href="/Home/RemoveAdmin?uid=@user.Id">Remove Admin</a>
-        }
-        else
-        {
-            <a class="btn btn-success" href="/Home/GrantAdmin?uid=@user.Id">Grant Admin</a>
-        }
-    </li>
-}
-</ul>
+    </ul>
+</div>

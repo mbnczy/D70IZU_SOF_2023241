@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ShoeWebshop.Data;
+using ShoeWebshop.Hubs;
 using ShoeWebshop.Models;
 using ShoeWebshop.Services;
 
@@ -12,6 +13,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString).UseLazyLoadingProxies());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+//SignalR
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDefaultIdentity<SiteUser>(options =>
 {
@@ -35,10 +41,14 @@ builder.Services.AddAuthentication()
         opt.ClientId = "265154729470-ltvltg8pmd1mvc5akmv9h7kh0poispld.apps.googleusercontent.com";
         opt.ClientSecret = "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";
     });
-//265154729470-ltvltg8pmd1mvc5akmv9h7kh0poispld.apps.googleusercontent.com
-
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IShoeRepository, ShoeRepository>();
+builder.Services.AddTransient<ISpecificShoeRepository, SpecificShoeRepository>();
+builder.Services.AddTransient<IColorRepository, ColorRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<ISizeRepository, SizeRepository>();
+builder.Services.AddTransient<IBrandRepository, BrandRepository>();
 
 builder.Services.AddControllersWithViews();
 
@@ -55,6 +65,11 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
+//hub
+
+app.MapHub<EventHub>("/events");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

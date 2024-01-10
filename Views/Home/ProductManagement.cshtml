@@ -1,7 +1,306 @@
-﻿@model IEnumerable<SiteUser>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<SiteUser> SignInManager
-@inject UserManager<SiteUser> UserManager
+@model dynamic
 
-<h1>Product Management</h1>
 
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between navbar-toggler-left">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Home" asp-action="ProductManagement">Manage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Products" asp-action="addshoe">Add New Shoe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Products" asp-action="addbrand">Add New Brand</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+  
+
+    #image-container img {
+        width: 100%; 
+        height: auto; 
+        object-fit: cover; 
+    }
+    .card {
+        border: 1px solid solid groove;
+        width: 250px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    }
+
+        .card:hover {
+            transform: scale(1.05); 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+            background-color: #f8f9fa; 
+        }
+
+    .card-img-top {
+        transition: transform 0.3s ease; 
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.1); 
+    }
+
+        .card img {
+            height: auto;
+            width: auto;
+            object-fit: cover;
+        }
+
+    .card-body {
+        flex-grow: 1;
+    }
+
+    .SpecificShoeForm {
+        text-align: right;
+    }
+</style>
+
+
+<div class="container mt-4">
+    <h2 class="display-4 text-success">Stock</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="SpecificShoeForm">
+                <form id="SpecificShoeUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+                    <label id="shoeid" name="shoeid"></label>
+                    <input type="hidden" name="shoeid" id="shoeidinput" />
+                    <div class="mb-3">
+                        <label for="color-select" class="form-label text-success">Choose color</label>
+                        <select id="color-select" name="ColorID" class="form-select">
+                         
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-success">Images:</label>
+                        <div class="row row-cols-1 row-cols-md-2 g-4" id="image-container">
+
+                        </div>
+                    </div>
+
+                    <label>Select size:</label>
+                    <select id="size-select" name="SizesID" class="form-select">
+                       
+                    </select>
+
+                    <div class="mb-3">
+                        <label for="order-type" class="form-label text-success">Order type</label>
+                        <select name="Order_type" id="order-type" class="form-select">
+                            <option value="On Stock">On Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                            <option value="Available">Available</option>
+                            <option value="PreOrder">PreOrder</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity-in-stock" class="form-label text-success">Quantity on stock:</label>
+                        <input type="number" name="quantity_in_stock" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label text-success">Price</label>
+                        <input type="number" name="price" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="discount" class="form-label text-success">Discount</label>
+                        <input type="number" name="discount" class="form-control" />
+                    </div>
+
+                    <input type="hidden" name="shoeid" id="shoeid" />
+                    <input type="hidden" name="colorid" id="colorid" />
+
+                    <div class="mb-3">
+                        <input type="submit" value="Push" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                @foreach (var item in Model.Shoes)
+                {
+                    <div class="col-2">
+                        <div class="card" data-shoe-id="@item.ShoeID" onclick="populateColorSelect(this)" style="width: 9rem; display: flex; flex-direction: column; justify-content: space-between;">
+                            <img src="@Url.Action("GetLogo", "Products", new { id = item.BrandID })" class="card-img-top" alt="Brand Logo" >
+                            <div class="card-body">
+                                <h4 class="card-title text-success">@item.Brand.Name @item.Name</h4>
+                                <h6 class="card-title">@item.Category.Name </h6>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var colorSelect = document.getElementById("color-select");
+    var div = document.getElementById("image-container");
+
+    var input_shoeid = document.getElementById("shoeid")
+    var input_colorid = document.getElementById("colorid")
+
+    
+    colorSelect.addEventListener("change", GetImagesFromColor);
+
+    function GetImagesFromColor() {
+        var selectedOptionId = colorSelect.value;
+        console.log("Selected Option ID:", selectedOptionId);
+        div.innerHTML = '';
+        input_colorid = selectedOptionId;
+        getImageCountAjax(selectedOptionId)
+            .then(function (count) {
+                let indexer = 1;
+                console.log('Received Image Count:', count);
+                while (indexer < count) {
+                    var div_col = document.createElement('div');
+                    div_col.className = "col";
+                    var div_card = document.createElement('div');
+                    div_col.className = "card";
+
+                    var img = document.createElement('img');
+
+                    var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
+                    url = url.replace("PLACEHOLDER_ID", selectedOptionId)
+                        .replace("PLACEHOLDER_INDEX", indexer.toString());
+                    console.log(url);
+                    img.src = url;
+                    img.className = "card-img-top";
+
+
+                    if (img.src != null) {
+                        div_card.appendChild(img);
+                        div_col.appendChild(div_card);
+                        div.appendChild(div_col);
+                    }
+                    
+                    indexer++;
+                }
+            });
+    }
+
+    function getImageCountAjax(colorid) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: '/Home/GetImageCount/' + colorid,
+                type: 'GET',
+                dataType: 'json',
+                success: function (count) {
+                    resolve(count);
+                },
+                error: function (error) {
+                    reject(error)
+                }
+            });
+        });
+    }
+    async function getImageCountFetch(colorid) {
+        const response = await fetch('/Home/GetImageCount/' + colorid)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                return data;
+                //console.log('Image Count:', data);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+
+        return await response;
+    }
+
+
+    function populateColorSelect(card) {
+        var shoeId = card.getAttribute("data-shoe-id");
+        var colorSelect = document.getElementById("color-select");
+        //var images = document.getElementById("divimages");
+
+        // Make an AJAX request to retrieve colors for the selected shoe ID
+        $.ajax({
+            url: '/Home/GetColorsById', // Replace with the actual URL of your controller action
+            type: 'GET',
+            data: { id: shoeId },
+            dataType: 'json',
+            success: function (colors) {
+                // Clear existing options
+                colorSelect.innerHTML = '';
+                console.log(colors)
+
+                // Populate the select options with colors
+                colors.forEach(function (color) {
+                    console.log(color)
+                    var option = document.createElement('option');
+                    option.value = color.colorID;
+                    option.textContent = color.name;
+                    colorSelect.appendChild(option);
+                });
+
+                document.getElementById("shoeidinput").value = shoeId;
+                
+                GetImagesFromColor();
+            },
+            error: function () {
+                console.error('Failed to retrieve color options.');
+            }
+        });
+        populateSizeSelect();
+    }
+
+    function populateSizeSelect() {
+        var sizeSelect = document.getElementById("size-select");
+
+        // Make an AJAX request to retrieve colors for the selected shoe ID
+        $.ajax({
+            url: '/Home/GetSizes',
+            type: 'GET',
+            dataType: 'json',
+            success: function (sizes) {
+                // Clear existing options
+                sizeSelect.innerHTML = '';
+                console.log(sizes)
+
+                // Populate the select options with colors
+                sizes.forEach(function (size) {
+                    console.log(size)
+                    var option = document.createElement('option');
+                    option.value = size.sizeID;
+                    option.textContent = size.value;
+                    console.log(option)
+                    sizeSelect.appendChild(option);
+                });
+
+            },
+            error: function () {
+                console.error('Failed to retrieve size options.');
+            }
+        });
+
+    }
+</script>

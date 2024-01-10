@@ -408,3 +408,5 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+/app.db
+*.db

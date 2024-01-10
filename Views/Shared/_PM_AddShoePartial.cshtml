@@ -1,0 +1,42 @@
+﻿@Html.ValidationSummary()
+<form method="post" enctype="multipart/form-data" class="photoForm">
+    <label>Brand</label>
+    <select name="shoe.BrandID">
+        @foreach (var item in Model.Brands)
+        {
+            <option value="@item.BrandID">@item.Name</option>
+        }
+    </select>
+    <label>Category</label>
+    <select name="shoe.CategoryID">
+        @foreach (var item in Model.Categories)
+        {
+            <option value="@item.CategoryID">@item.Name</option>
+        }
+    </select>
+    <label>Name</label>
+    <input type="text" name="shoe.name" />
+    <label>Sex</label>
+    <select name="shoe.sex">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Unisex" selected>Unisex</option>
+        <option value="Kids">Kids</option>
+    </select>
+    <label>Description</label>
+    <input type="text" name="shoe.description" />
+    <label>Weight</label>
+    <input type="number" name="shoe.weight" />
+
+    <br />
+    <!--Color-->
+    <label>Color name</label>
+    <input type="text" name="color.name" />
+    <label>Hexa code</label>
+    <input type="text" name="color.hexa_code" />
+    <input type="hidden" name="color.shoeid" value="" />
+    <input type="file" name="picturedata" />
+
+
+    <input type="submit" value="Add" />
+</form>

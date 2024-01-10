@@ -1,0 +1,175 @@
+﻿@model SpecificShoe
+
+
+
+
+<style>
+
+    .message {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        color: #333;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+        margin-top: 20px;
+    }
+
+    #image-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    img {
+        max-width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+        img:hover {
+            transform: scale(5); 
+        }
+
+    #colorlabel {
+        font-weight: bold;
+        color: #333;
+    }
+
+    #description {
+        margin-top: 20px;
+    }
+
+    #price {
+        margin-top: 10px;
+        color: #555;
+    }
+
+    #discount-price {
+        color: red;
+    }
+
+    #stock-label {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    #buy-button {
+        margin-top: 10px;
+    }
+</style>
+
+@if (Model.Quantity_in_stock!=0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+                <img src="@Url.Action("GetLogo","Products", new {id = Model.Shoe.Brand.BrandID})" alt="Brand Logo" />
+                <h7 hideen>@Model.Shoe.Brand.Name</h7>
+                <h3>@Model.Shoe.Name</h3>
+                <label hidden id="colorlabel">@Model.ColorID</label>
+                <div class="row row-cols-1 row-cols-md-4 g-4" id="image-container">
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <label>Size: @Model.Size.Value</label>
+                <p id="description">@Model.Shoe.Description</p>
+
+                @if (Model.Discount.ToString() != "0")
+            {
+                <h6 id="price" style="text-decoration: line-through; color: gray;">@Model.Price Ft <span id="discount-price">-@Model.Discount%</span></h6>
+            }
+            <h6 id="price">@Model.discount_Price Ft</h6>
+
+            <label id="stock-label">On Stock: @Model.Quantity_in_stock pieces</label>
+            <input type="hidden" id="sshoeid" name="@Model.SpecificShoeID">
+            <form id="buy-form">
+                <input type="button" value="Buy" class="btn btn-success" id="buy-button" onclick="buyClicked()" />
+            </form>
+        </div>
+    </div>
+</div>
+
+}
+else
+{
+<div class="message">
+    A termék nem elérhető
+</div>
+
+}
+
+
+
+
+
+
+<script>
+        window.onload= function() {
+            var div = document.getElementById("image-container");
+            var selectedOptionId = document.getElementById('colorlabel').textContent;
+            console.log("Selected Option ID:", selectedOptionId);
+            div.innerHTML = '';
+            input_colorid = selectedOptionId;
+            getImageCountAjax(selectedOptionId)
+                .then(function (count) {
+                    let indexer = 1;
+                    console.log('Received Image Count:', count);
+                    while (indexer < count) {
+                        var div_col = document.createElement('div');
+                        div_col.className = "col";
+                        var div_card = document.createElement('div');
+                        div_col.className = "card";
+
+                        var img = document.createElement('img');
+
+                        var url = '@Url.Action("GetImage", "Home", new { id = "PLACEHOLDER_ID", index = "PLACEHOLDER_INDEX"})';
+                        url = url.replace("PLACEHOLDER_ID", selectedOptionId)
+                            .replace("PLACEHOLDER_INDEX", indexer.toString());
+                        console.log(url);
+                        img.src = url;
+                        img.className = "card-img-top";
+
+
+                        if (img.src != null) {
+                            div_card.appendChild(img);
+                            div_col.appendChild(div_card);
+                            div.appendChild(div_col);
+                        }
+
+                        indexer++;
+                    }
+                });
+
+        };
+
+        function getImageCountAjax(colorid) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: '/Home/GetImageCount/' + colorid,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (count) {
+                        resolve(count);
+                    },
+                    error: function (error) {
+                        reject(error)
+                    }
+                });
+            });
+        }
+    function buyClicked() {
+        url = '@Url.Action("BuyShoe", "Home")'+'/' + document.getElementById('sshoeid').name;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>

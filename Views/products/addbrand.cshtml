@@ -1,0 +1,98 @@
+@model IEnumerable<Brand>
+
+@Html.ValidationSummary()
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between navbar-toggler-left">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Home" asp-action="ProductManagement">Manage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Products" asp-action="addshoe">Add New Shoe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" asp-area="" asp-controller="Products" asp-action="addbrand">Add new Brand</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="display-4 text-success">Add New Brand</h2>
+
+            <form id="BrandUploadForm" method="post" enctype="multipart/form-data" class="photoForm">
+                <div class="mb-3">
+                    <label for="brandName" class="form-label text-dark">Name</label>
+                    <input type="text" class="form-control" id="brandName" name="Name" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="countryOrigin" class="form-label text-dark">Country of Origin</label>
+                    <input type="text" class="form-control" id="countryOrigin" name="country_of_origin" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="foundedYear" class="form-label text-dark">Founded Year</label>
+                    <input type="date" class="form-control" id="foundedYear" name="founded_year" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="logoData" class="form-label text-dark">Logo</label>
+                    <input type="file" class="form-control" id="logoData" name="logodata" required />
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Brand</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+
+<div class="row justify-content-center">
+    <div class="col-10">
+        <table class="table table-bordered table-hover rounded-3 overflow-hidden mx-auto">
+            <thead class="table-success text-center">
+                <tr>
+                    <th style="height: 30px;">Logo</th>
+                    <th style="height: 30px;">Name</th>
+                    <th style="height: 30px;">Country of Origin</th>
+                    <th style="height: 30px;">Founded Year</th>
+                    <th style="height: 30px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="height: 5px;" class="text-center align-middle"><img src="@Url.Action("GetLogo","Products", new {id = item.BrandID})" style="height: 50px" class="img-fluid" alt="Brand Logo"></td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Name</td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Country_of_origin</td>
+                            <td style="height: 40px;" class="text-center align-middle">@item.Founded_year</td>
+                            <td style="height: 40px;" class="text-center align-middle"><a href="/Products/removebrand?name=@item.Name" class="btn btn-danger">Remove</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

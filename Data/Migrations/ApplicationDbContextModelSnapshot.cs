@@ -41,6 +41,22 @@ namespace ShoeWebshop.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "051e85f2-bf50-4388-89b9-803d56ac1ff3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "21094787-f9ef-41cc-881a-9b9267fafc69",
+                            Name = "Staff",
+                            NormalizedName = "STAFF"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -224,12 +240,20 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("BrandID")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Country_of_origin")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Founded_year")
                         .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Logo")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -256,6 +280,14 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = "1",
+                            Description = "expensive stuff",
+                            Name = "Sneaker"
+                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Color", b =>
@@ -263,15 +295,53 @@ namespace ShoeWebshop.Data.Migrations
                     b.Property<string>("ColorID")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Hexa_color")
+                    b.Property<string>("ContentType1")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContentType4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Hexa_code")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Image1")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image2")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image3")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("Image4")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ShoeID")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ColorID");
+
+                    b.HasIndex("ShoeID");
 
                     b.ToTable("Colors");
                 });
@@ -344,10 +414,6 @@ namespace ShoeWebshop.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Images")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -384,6 +450,62 @@ namespace ShoeWebshop.Data.Migrations
                     b.HasKey("SizeID");
 
                     b.ToTable("Sizes");
+
+                    b.HasData(
+                        new
+                        {
+                            SizeID = "1",
+                            Details = "",
+                            Value = "UK - 6"
+                        },
+                        new
+                        {
+                            SizeID = "2",
+                            Details = "",
+                            Value = "UK - 6.5"
+                        },
+                        new
+                        {
+                            SizeID = "3",
+                            Details = "",
+                            Value = "UK - 7"
+                        },
+                        new
+                        {
+                            SizeID = "4",
+                            Details = "",
+                            Value = "UK - 7.5"
+                        },
+                        new
+                        {
+                            SizeID = "5",
+                            Details = "",
+                            Value = "UK - 8"
+                        },
+                        new
+                        {
+                            SizeID = "6",
+                            Details = "",
+                            Value = "UK - 8.5"
+                        },
+                        new
+                        {
+                            SizeID = "7",
+                            Details = "",
+                            Value = "UK - 9"
+                        },
+                        new
+                        {
+                            SizeID = "8",
+                            Details = "",
+                            Value = "UK - 9.5"
+                        },
+                        new
+                        {
+                            SizeID = "9",
+                            Details = "",
+                            Value = "UK - 10"
+                        });
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.SpecificShoe", b =>
@@ -413,10 +535,6 @@ namespace ShoeWebshop.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SizesID")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Specific_images")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -505,6 +623,17 @@ namespace ShoeWebshop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ShoeWebshop.Models.Color", b =>
+                {
+                    b.HasOne("ShoeWebshop.Models.Shoe", "Shoe")
+                        .WithMany()
+                        .HasForeignKey("ShoeID")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Shoe");
                 });
 
             modelBuilder.Entity("ShoeWebshop.Models.Purchase", b =>
